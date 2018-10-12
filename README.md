@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/WennderSantos/robotsanddinosaurs/tree/master.svg?style=svg)](https://circleci.com/gh/WennderSantos/robotsanddinosaurs/tree/master)
+
 # Robots vs Dinosaurs
 
 ## Features required
