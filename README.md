@@ -2,7 +2,7 @@
 
 # Robots vs Dinosaurs
 
-## Features required
+## Features
 
 - Be able to create an empty simulation space - an empty 50 x 50 grid;
 - Be able to create a robot in a certain position and facing direction;
