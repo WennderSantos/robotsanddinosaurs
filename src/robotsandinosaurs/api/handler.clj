@@ -2,7 +2,10 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [robotsandinosaurs.core :as core]))
+            [robotsandinosaurs.core :as core]
+            [ring.adapter.jetty :refer :all]
+            [environ.core :as env])
+  (:gen-class))
 
 (def X (s/constrained s/Int #(and (>= % 0) (< % (get-in core/grid [:lenght :x])))))
 (def Y (s/constrained s/Int #(and (>= % 0) (< % (get-in core/grid [:lenght :x])))))
@@ -117,3 +120,7 @@
                     (parse-space-into-objects)))
                (bad-request (str "Trying to move to a coordination already occupied " (core/coord-into-map coord-to-move)))))
            (not-found (str "There is no robot at " current-coord-in-string-format))))))))
+
+(defn -main []
+  (run-jetty app {:port (or (env/env :port)
+                            8080)}))
