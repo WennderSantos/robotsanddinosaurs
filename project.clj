@@ -6,8 +6,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [ring "1.7.0"]
-                 [metosin/compojure-api "1.1.11"]
-                 [environ "1.1.0"]]
+                 [metosin/compojure-api "1.1.11"]]
   :uberjar-name "robots-and-dinosaurs.jar"
   :ring {:handler robotsandinosaurs.api.handler/app}
   :main robotsandinosaurs.api.handler

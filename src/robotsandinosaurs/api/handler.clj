@@ -3,8 +3,7 @@
             [ring.util.http-response :refer :all]
             [schema.core :as s]
             [robotsandinosaurs.core :as core]
-            [ring.adapter.jetty :refer :all]
-            [environ.core :as env])
+            [ring.adapter.jetty :refer :all])
   (:gen-class))
 
 (def X (s/constrained s/Int #(and (>= % 0) (< % (get-in core/grid [:lenght :x])))))
@@ -122,5 +121,4 @@
            (not-found (str "There is no robot at " current-coord-in-string-format))))))))
 
 (defn -main []
-  (run-jetty app {:port (or (env/env :port)
-                            8080)}))
+  (run-jetty app {:port 80}))
