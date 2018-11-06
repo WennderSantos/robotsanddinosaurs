@@ -121,4 +121,4 @@
            (not-found (str "There is no robot at " current-coord-in-string-format))))))))
 
 (defn -main []
-  (run-jetty app {:port 80}))
+  (run-jetty app {:port 8080}))
