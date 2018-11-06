@@ -8,8 +8,7 @@
                  [ring "1.7.0"]
                  [metosin/compojure-api "1.1.11"]]
   :uberjar-name "robots-and-dinosaurs.jar"
-  :ring {:handler robotsandinosaurs.api.handler/app}
-  :main ^{:skip-aot true} robotsandinosaurs.api.handler
+  :main ^{:skip-aot true} robotsandinosaurs.api.server
   :profiles {:dev
              {:dependencies [[midje "1.9.2"]
                              [javax.servlet/javax.servlet-api "3.1.0"]
@@ -18,4 +17,4 @@
                         [lein-cljfmt "0.6.0"]
                         [lein-cloverage "1.0.13"]
                         [lein-ring "0.12.0"]]}
-             :uberjar {:aot [robotsandinosaurs.api.handler]}})
+             :uberjar {:aot [robotsandinosaurs.api.server]}})
