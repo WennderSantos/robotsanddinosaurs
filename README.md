@@ -49,7 +49,7 @@ lein deps
 ```
 lein ring server
 ```
-This command should start a server on [localhost:3000](http://localhost:3000) and you will see a web page with a "Hello World!" and a link to the api docs.
+This command should start a server on [localhost:8080](http://localhost:8080) and you will see a web page with a "Hello World!" and a link to the api docs.
 
 ## Running the tests
 
