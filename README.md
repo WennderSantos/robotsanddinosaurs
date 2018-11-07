@@ -68,7 +68,7 @@ lein cloverage --runner :midje
 
 ## Api infos
 
-Technical information on how to use and parameter samples are described in swagger format in the following link [api docs](http://localhost:3000/api-docs/index.html). **Aplication must be up and running** You can also see the api tests in `test/robotsandinosaurs/api/handler_test.clj`
+Technical information on how to use and parameter samples are described in swagger format in the following link [api docs](http://localhost:3000/api-docs/index.html). **Aplication must be up and running** You can also see the api tests in `test/robotsandinosaurs/api/controller_test.clj`
 
 A few important conceptual things to point here are:
 
