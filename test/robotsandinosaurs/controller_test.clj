@@ -1,7 +1,7 @@
-(ns robotsandinosaurs.api.controller-test
+(ns robotsandinosaurs.controller-test
   (:use midje.sweet)
   (:require [cheshire.core :as cheshire]
-            [robotsandinosaurs.api.controller :refer :all]
+            [robotsandinosaurs.controller :refer :all]
             [ring.mock.request :as mock]
             [robotsandinosaurs.core :refer :all]))
 

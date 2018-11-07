@@ -1,6 +1,6 @@
-(ns robotsandinosaurs.api.server
+(ns robotsandinosaurs.server
   (:require [ring.adapter.jetty :refer :all]
-            [robotsandinosaurs.api.controller :refer [app]])
+            [robotsandinosaurs.controller :refer [app]])
   (:gen-class))
 
 (defn -main []
