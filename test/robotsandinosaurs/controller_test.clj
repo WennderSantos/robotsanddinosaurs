@@ -1,9 +1,9 @@
-(ns robotsandinosaurs.api.handler-test
+(ns robotsandinosaurs.controller-test
   (:use midje.sweet)
   (:require [cheshire.core :as cheshire]
-            [robotsandinosaurs.api.handler :refer :all]
+            [robotsandinosaurs.controller :refer :all]
             [ring.mock.request :as mock]
-            [robotsandinosaurs.core :refer :all]))
+            [robotsandinosaurs.logic :refer :all]))
 
 (defn parse-body [body]
   (cheshire/parse-string (slurp body) true))
