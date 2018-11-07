@@ -1,6 +1,6 @@
-(ns robotsandinosaurs.core-test
+(ns robotsandinosaurs.logic-test
   (:use midje.sweet)
-  (:require [robotsandinosaurs.core :refer :all]))
+  (:require [robotsandinosaurs.logic :refer :all]))
 
 (fact "start-the-game should start the game with an empty space"
       (start-the-game!) => empty-space)
@@ -116,7 +116,7 @@
                   (move-a-robot {:direction :move-back :current-coord "39:40" :face-direction "right" :current-space {:robot {"39:40" "right"} :dinosaur #{}}}) => {:robot {"38:40" "right"} :dinosaur #{}})))
 
 (fact "Should be able to know all the coords around a coord"
-      (#'robotsandinosaurs.core/coords-around-this {:x 5 :y 4}) => #{"6:4" "5:5" "4:4" "5:3"})
+      (#'robotsandinosaurs.logic/coords-around-this {:x 5 :y 4}) => #{"6:4" "5:5" "4:4" "5:3"})
 
 (fact "In a robot attack, dinosaurs around it should be destroyed"
       (let [current-space {:dinosaur #{"20:30" "5:2" "4:3"} :robot {"4:2" "right"}}]

@@ -1,4 +1,4 @@
-(ns robotsandinosaurs.core
+(ns robotsandinosaurs.logic
   (:require [clojure.string :as str]))
 
 (defonce grid {:lenght {:x 50 :y 50}})

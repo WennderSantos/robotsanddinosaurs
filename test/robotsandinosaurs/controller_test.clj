@@ -3,7 +3,7 @@
   (:require [cheshire.core :as cheshire]
             [robotsandinosaurs.controller :refer :all]
             [ring.mock.request :as mock]
-            [robotsandinosaurs.core :refer :all]))
+            [robotsandinosaurs.logic :refer :all]))
 
 (defn parse-body [body]
   (cheshire/parse-string (slurp body) true))

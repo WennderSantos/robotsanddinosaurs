@@ -2,7 +2,7 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [robotsandinosaurs.core :as core]))
+            [robotsandinosaurs.logic :as core]))
 
 (def X (s/constrained s/Int #(and (>= % 0) (< % (get-in core/grid [:lenght :x])))))
 (def Y (s/constrained s/Int #(and (>= % 0) (< % (get-in core/grid [:lenght :x])))))
