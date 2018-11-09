@@ -4,18 +4,27 @@
             [com.stuartsierra.component :as component]
             [ring.adapter.jetty :refer :all]
             [ring.middleware.json :refer [wrap-json-response]]
-            [robotsandinosaurs.protocols.storage-client :as db]))
+            [robotsandinosaurs.adapters :as adapters]
+            [robotsandinosaurs.controllers.space-ctrl :as space-controller]))
 
-(defn home [state]
-    (ring-resp/response (db/read-all state)))
+(defn get-current-space [storage]
+  (-> (space-controller/get-current-space storage)
+      (adapters/space->list-objects)
+      (ring-resp/response)))
 
-(defn all-routes [state]
+(defn restart-space [storage]
+  (-> (space-controller/restart! storage)
+      (adapters/space->list-objects)
+      (ring-resp/response)))
+
+(defn all-routes [storage]
   (routes
-    (GET "/foo" [] (home state))
-    (GET "/bar" [] (home state))))
+    (context "/space" []
+      (GET "/" [] (get-current-space storage))
+      (POST "/restart" [] (restart-space storage)))))
 
-(defn app [state]
-  (wrap-json-response (all-routes state)))
+(defn app [storage]
+  (wrap-json-response (all-routes storage)))
 
 (defrecord WebServer [storage]
   component/Lifecycle

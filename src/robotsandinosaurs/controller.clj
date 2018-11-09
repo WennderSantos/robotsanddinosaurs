@@ -43,21 +43,6 @@
             <a href='/api-docs'>Go to the api docs</a>
           </div>"))
 
-   (context "/space" []
-     :tags ["space"]
-
-     (POST "/restart" []
-       :return Space
-       :summary "Restart the simulation space to its initial state. Current simulation space will be lost."
-       (ok
-        (-> (core/start-the-game!)
-            (parse-space-into-objects)))) (GET "/" []
-                                            :return Space
-                                            :summary "Get the current state of the simulation space"
-                                            (ok
-                                             (-> (core/get-current-space)
-                                                 (parse-space-into-objects)))))
-
    (context "/dinosaur" []
      :tags ["dinosaur"]
 
