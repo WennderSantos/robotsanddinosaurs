@@ -1,4 +1,4 @@
-(ns robotsandinosaurs.db.space
+(ns robotsandinosaurs.db.space-db
   (:require [robotsandinosaurs.protocols.storage-client :as storage-client]))
 
 (defn get-current-space [storage]
