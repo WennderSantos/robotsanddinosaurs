@@ -1,5 +1,10 @@
 (ns robotsandinosaurs.adapters
-  (:require [robotsandinosaurs.logic :as logic]))
+  (:require [schema.core :as s]
+            [robotsandinosaurs.logic :as logic]))
+
+(defonce grid {:lenght 50})
+(def Cell (s/constrained s/Int #(and (>= % 0) (< % (:lenght grid)))))
+(def Coord {:x Cell :y Cell})
 
 (defn space->list-objects [current-space]
   (let [dinosaurs (map #(into {} {:coord (logic/coord-into-map %)}) (:dinosaur current-space))

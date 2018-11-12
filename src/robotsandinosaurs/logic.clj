@@ -1,23 +1,6 @@
 (ns robotsandinosaurs.logic
   (:require [clojure.string :as str]))
 
-(defonce grid {:lenght {:x 50 :y 50}})
-(defonce empty-space {:robot {} :dinosaur #{}})
-(defonce ^:private space-db (atom [empty-space]))
-
-(defn get-current-space []
-  (-> @space-db
-      last))
-
-(defn start-the-game! []
-  "Reset the space to a initial state without regardind to its current value"
-  (reset! space-db [empty-space])
-  (get-current-space))
-
-(defn update-space! [new-space]
-  (swap! space-db conj new-space)
-  (get-current-space))
-
 (defmulti create-a-creature (fn [args] (args :creature)))
 
 (defmethod create-a-creature :robot [{:keys [creature current-space coord face-direction]}]

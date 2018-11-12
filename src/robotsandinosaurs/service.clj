@@ -1,30 +1,35 @@
 (ns robotsandinosaurs.service
-  (:require [compojure.core :refer :all]
-            [ring.util.response :as ring-resp]
+  (:require [compojure.api.sweet :refer :all]
+            [ring.util.http-response :refer :all]
             [com.stuartsierra.component :as component]
             [ring.adapter.jetty :refer :all]
-            [ring.middleware.json :refer [wrap-json-response]]
             [robotsandinosaurs.adapters :as adapters]
             [robotsandinosaurs.controllers.space-ctrl :as space-controller]))
 
-(defn get-current-space [storage]
-  (-> (space-controller/get-current-space storage)
-      (adapters/space->list-objects)
-      (ring-resp/response)))
+(defn get-space [storage]
+  (-> (space-controller/get-space storage)
+      (adapters/space->list-objects)))
 
 (defn restart-space [storage]
   (-> (space-controller/restart! storage)
-      (adapters/space->list-objects)
-      (ring-resp/response)))
+      (adapters/space->list-objects)))
+
+(defn create-dinosaur [storage coord]
+  (let [dinosaur (space-controller/create-dinosaur! storage coord)]
+    {:dinosaur dinosaur}))
 
 (defn all-routes [storage]
-  (routes
+  (api
     (context "/space" []
-      (GET "/" [] (get-current-space storage))
-      (POST "/restart" [] (restart-space storage)))))
+      (GET "/" [] (ok (get-space storage)))
+      (POST "/restart" [] (ok (restart-space storage))))
+    (context "/dinosaur" []
+      (POST "/" []
+        :body [coord adapters/Coord]
+        (ok (create-dinosaur storage coord))))))
 
 (defn app [storage]
-  (wrap-json-response (all-routes storage)))
+  (all-routes storage))
 
 (defrecord WebServer [storage]
   component/Lifecycle

@@ -14,8 +14,7 @@
 storage-client/StorageClient
   (read-all [_this] @storage)
   (put! [_this update-fn] (swap! storage update-fn))
-  (clear-all! [_this] (reset! storage [empty-space])))
-
+  (clear-all! [_this] (reset! storage empty-space)))
 
 (defn new-in-memory []
-  (->InMemory (atom [empty-space])))
+  (->InMemory (atom empty-space)))
