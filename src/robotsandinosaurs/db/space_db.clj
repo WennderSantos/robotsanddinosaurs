@@ -6,6 +6,3 @@
 
 (defn delete-space! [storage]
   (storage-client/clear-all! storage))
-
-(defn create-dinosaur! [storage coord]
-  (storage-client/put! storage #(update % :dinosaur conj coord)))
