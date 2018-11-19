@@ -4,7 +4,8 @@
             [com.stuartsierra.component :as component]
             [ring.adapter.jetty :refer :all]
             [robotsandinosaurs.adapters :as adapters]
-            [robotsandinosaurs.controllers.space-ctrl :as space-controller]))
+            [robotsandinosaurs.controllers.space-ctrl :as space-controller]
+            [robotsandinosaurs.controllers.dinosaur-ctrl :as dinosaur-controller]))
 
 (defn get-space [storage]
   (-> (space-controller/get-space storage)
@@ -15,7 +16,7 @@
       (adapters/space->list-objects)))
 
 (defn create-dinosaur [storage coord]
-  (let [dinosaur (space-controller/create-dinosaur! storage coord)]
+  (let [dinosaur (dinosaur-controller/create-dinosaur! storage coord)]
     {:dinosaur dinosaur}))
 
 (defn all-routes [storage]

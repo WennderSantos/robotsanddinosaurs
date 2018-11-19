@@ -8,7 +8,3 @@
 (defn restart! [storage]
   (db/delete-space! storage)
   (get-space storage))
-
-(defn create-dinosaur! [storage coord]
-  (db/create-dinosaur! storage (logic/coord-into-string coord))
-  coord)
