@@ -1,34 +1,57 @@
 (ns robotsandinosaurs.service
   (:require [compojure.api.sweet :refer :all]
-            [ring.util.http-response :refer :all]
+            [ring.util.response :as ring-resp]
             [com.stuartsierra.component :as component]
             [ring.adapter.jetty :refer :all]
             [robotsandinosaurs.adapters :as adapters]
-            [robotsandinosaurs.controllers.space-ctrl :as space-ctrl]
-            [robotsandinosaurs.controllers.dinosaur-ctrl :as dinosaur-ctrl]
-            [robotsandinosaurs.controllers.robot-ctrl :as robot-ctrl]))
+            [robotsandinosaurs.controllers.space-ctrl :as ctrl.space]
+            [robotsandinosaurs.controllers.dinosaur-ctrl :as ctrl.dinosaur]
+            [robotsandinosaurs.controllers.robot-ctrl :as ctrl.robot]))
 
 (defn get-space [storage]
-  (-> (space-ctrl/get-space storage)
-      (adapters/space->list-objects)))
+  (-> (ctrl.space/get-space storage)
+      (adapters/space->list-objects)
+      (ring-resp/response)))
 
 (defn restart-space [storage]
-  (-> (space-ctrl/restart! storage)
-      (adapters/space->list-objects)))
+  (-> (ctrl.space/restart! storage)
+      (adapters/space->list-objects)
+      (ring-resp/response)))
 
-(defn create-dinosaur [storage coord]
-  (let [dinosaur (dinosaur-ctrl/create-dinosaur! storage coord)]
-    {:dinosaur dinosaur}))
+(defn create-dinosaur [storage {:keys [coord]}]
+  (let [new-dinosaur (ctrl.dinosaur/create-dinosaur! storage coord)]
+    (ring-resp/created
+      "/space"
+      new-dinosaur)))
+
+(defn create-robot [storage robot]
+  (let [new-robot (ctrl.robot/create-robot! storage robot)]
+    (ring-resp/created
+      "/space"
+      new-robot)))
+
+(defn turn-robot-face [storage {:keys [coord side-to-turn]}]
+  (-> {:r coord :side side-to-turn}
+      (ring-resp/response)))
 
 (defn all-routes [storage]
   (api
     (context "/space" []
-      (GET "/" [] (ok (get-space storage)))
-      (PUT "/restart" [] (ok (restart-space storage))))
+      (GET "/" []
+        (get-space storage))
+      (PUT "/restart" []
+        (restart-space storage)))
     (context "/dinosaur" []
       (POST "/" []
-        :body [coord adapters/Coord]
-        (ok (create-dinosaur storage coord))))))
+        :body [dinosaur adapters/Dinosaur]
+        (create-dinosaur storage dinosaur)))
+    (context "/robot" []
+      (POST "/" []
+        :body [robot adapters/Robot]
+        (create-robot storage robot))
+      (PUT "/turn" []
+        :body [instruction adapters/Instruction-to-turn-robot-face]
+        (turn-robot-face storage instruction)))))
 
 (defn app [storage]
   (all-routes storage))

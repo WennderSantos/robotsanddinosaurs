@@ -4,4 +4,4 @@
 
 (defn create-dinosaur! [storage coord]
   (db.dinosaur/create-dinosaur! storage (logic/coord-into-string coord))
-  coord)
+  {:coord coord})

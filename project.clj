@@ -5,7 +5,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [ring "1.7.0"]
+                 [ring "1.7.1"]
                  [com.stuartsierra/component "0.3.2"]
                  [metosin/compojure-api "1.1.11"]]
   :uberjar-name "robots-and-dinosaurs.jar"
