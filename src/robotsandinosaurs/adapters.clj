@@ -15,17 +15,15 @@
 
 (def Dinosaur {:coord Coord})
 
-(def Face-direction (s/enum "upwards"
-                            "backwards"
-                            "left"
-                            "right"))
+(def directions #{"north" "east" "south" "west"})
+(def Face-direction (s/enum "north" "east" "south" "west"))
 
 (def Robot {:coord Coord
             :face-direction Face-direction})
 
 (def Side (s/enum :left :right))
 
-(def Instruction-to-turn-robot-face {:coord Coord :side-to-turn Side})
+(def Instruction-to-turn-robot-face {:coord Coord :direction-to-turn Side})
 
 (defn space->list-objects [current-space]
   (let [dinosaurs (map #(into {} {:coord (logic/coord-into-map %)}) (:dinosaur current-space))

@@ -84,3 +84,11 @@
         coords-being-used-by-dinosaurs (:dinosaur current-space)
         coords-being-used (concat coords-being-used-by-robots coords-being-used-by-dinosaurs)]
     (not (some #(= coord %) coords-being-used))))
+
+(defn turn-robot-face [face-direction directions direction-to-turn]
+  (if (= direction-to-turn :right)
+    (turn-robot-face face-direction (reverse directions) :left)
+    (loop [directions directions left-side (last directions)]
+      (if (= (first directions) face-direction)
+        left-side
+        (recur (rest directions) (first directions))))))

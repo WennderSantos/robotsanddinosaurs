@@ -29,8 +29,8 @@
       "/space"
       new-robot)))
 
-(defn turn-robot-face [storage {:keys [coord side-to-turn]}]
-  (-> {:r coord :side side-to-turn}
+(defn turn-robot-face [storage {:keys [coord direction-to-turn]}]
+  (-> (ctrl.robot/turn-robot-face! storage coord direction-to-turn)
       (ring-resp/response)))
 
 (defn all-routes [storage]
@@ -48,7 +48,7 @@
       (POST "/" []
         :body [robot adapters/Robot]
         (create-robot storage robot))
-      (PUT "/turn" []
+      (PUT "/turn-face-direction" []
         :body [instruction adapters/Instruction-to-turn-robot-face]
         (turn-robot-face storage instruction)))))
 
