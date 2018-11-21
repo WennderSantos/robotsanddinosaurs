@@ -70,11 +70,12 @@
       (conj (coord-y-1 coord))
       (conj (coord-y+1 coord))))
 
-(defn robot-attack [robot-coord current-space]
-  (loop [current-space current-space coords-around (coords-around-this (coord-into-map robot-coord))]
+(defn robot-attack [map-robot-coord dinosaurs]
+  (loop [dinosaurs dinosaurs coords-around (coords-around-this map-robot-coord)]
     (if (empty? coords-around)
-      current-space
-      (recur (remove-creature {:creature :dinosaur :current-space current-space :coord (first coords-around)}) (rest coords-around)))))
+      dinosaurs
+      (recur (disj dinosaurs (first coords-around))
+             (rest coords-around)))))
 
 (defn is-this-robot-exist-in-space? [{:keys [coord current-space]}]
   (true? (some #(= coord %) (keys (:robot current-space)))))

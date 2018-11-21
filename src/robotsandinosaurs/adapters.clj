@@ -25,6 +25,8 @@
 
 (def Instruction-to-turn-robot-face {:coord Coord :direction-to-turn Side})
 
+(def Instruction-robot-attack {:coord Coord})
+
 (defn space->list-objects [current-space]
   (let [dinosaurs (map #(into {} {:coord (logic/coord-into-map %)}) (:dinosaur current-space))
         robots (map #(into {} {:coord (logic/coord-into-map (first %)) :face-direction (last %)}) (:robot current-space))]

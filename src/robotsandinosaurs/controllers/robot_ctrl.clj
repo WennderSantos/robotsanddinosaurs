@@ -1,6 +1,7 @@
 (ns robotsandinosaurs.controllers.robot-ctrl
   (:require [robotsandinosaurs.logic :as logic]
             [robotsandinosaurs.db.robot-db :as db.robot]
+            [robotsandinosaurs.db.dinosaur-db :as db.dinosaur]
             [robotsandinosaurs.adapters :as adapters]))
 
 (defn create-robot! [storage {:keys [coord face-direction]}]
@@ -18,3 +19,8 @@
     (db.robot/update-robot-face-direction! storage
                                            robot-id
                                            new-face-direction)))
+
+(defn robot-attack! [storage coord]
+  (let [dinosaurs (db.dinosaur/get-dinosaurs storage)
+        dinosaurs-after-attack (logic/robot-attack coord dinosaurs)]
+    (db.dinosaur/update-dinosaurs! storage dinosaurs-after-attack)))

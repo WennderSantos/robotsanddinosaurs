@@ -33,6 +33,10 @@
   (-> (ctrl.robot/turn-robot-face! storage coord direction-to-turn)
       (ring-resp/response)))
 
+(defn robot-attack [storage {:keys [coord]}]
+  (ctrl.robot/robot-attack! storage coord)
+  (get-space storage))
+
 (defn all-routes [storage]
   (api
     (context "/space" []
@@ -50,7 +54,10 @@
         (create-robot storage robot))
       (PUT "/turn-face-direction" []
         :body [instruction adapters/Instruction-to-turn-robot-face]
-        (turn-robot-face storage instruction)))))
+        (turn-robot-face storage instruction))
+      (PUT "/attack" []
+        :body [instruction adapters/Instruction-robot-attack]
+        (robot-attack storage instruction)))))
 
 (defn app [storage]
   (all-routes storage))
