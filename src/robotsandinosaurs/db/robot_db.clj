@@ -13,3 +13,6 @@
 (defn get-robot-face-direction [storage coord]
   (-> (storage-client/read-all storage)
       (get-in [:robot coord])))
+
+(defn remove-robot! [storage coord]
+  (storage-client/put! storage #(update % :robot dissoc coord)))

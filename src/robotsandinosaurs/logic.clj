@@ -35,33 +35,13 @@
 (defn- coord-y+1 [coord]
   (coord-into-string (update coord :y inc)))
 
-(defmulti robot-instruction
-  (fn [instruction]
-    (let [movement [(:move instruction) (:face-direction instruction)]]
-      (cond
-        (some #(= % movement) '([:turn-left "upwards"] [:turn-right "backwards"] [:move-back "right"] [:move-forward "left"])) :x-1
-        (some #(= % movement) '([:turn-right "upwards"] [:turn-left "backwards"] [:move-back "left"] [:move-forward "right"])) :x+1
-        (some #(= % movement) '([:turn-left "left"] [:turn-right "right"] [:move-back "upwards"] [:move-forward "backwards"])) :y-1
-        (some #(= % movement) '([:turn-right "left"] [:turn-left "right"] [:move-back "backwards"] [:move-forward "upwards"])) :y+1))))
-
-(defmethod robot-instruction :x-1 [{:keys [current-coord]}]
-  (coord-x-1 current-coord))
-
-(defmethod robot-instruction :x+1 [{:keys [current-coord]}]
-  (coord-x+1 current-coord))
-
-(defmethod robot-instruction :y-1 [{:keys [current-coord]}]
-  (coord-y-1 current-coord))
-
-(defmethod robot-instruction :y+1 [{:keys [current-coord]}]
-  (coord-y+1 current-coord))
-
-(defn move-a-robot [{:keys [direction current-coord face-direction current-space]}]
-  (let [current-face-direction (get-in current-space [:robot current-coord])
-        new-coord (robot-instruction {:move direction :face-direction current-face-direction :current-coord (coord-into-map current-coord)})
-        space-without-the-robot (remove-creature {:creature :robot :current-space current-space :coord current-coord})
-        new-space (create-a-creature {:creature :robot :current-space space-without-the-robot :coord new-coord :face-direction face-direction})]
-    new-space))
+(defn move-robot [where coord face-direction]
+  (let [instruction [where face-direction]]
+    (cond
+      (some #(= % instruction) '([:move-forward "west"] [:move-backwards "east"])) (coord-x-1 coord)
+      (some #(= % instruction) '([:move-forward "east"] [:move-backwards "west"])) (coord-x+1 coord)
+      (some #(= % instruction) '([:move-forward "south"] [:move-backwards "north"])) (coord-y-1 coord)
+      (some #(= % instruction) '([:move-forward "north"] [:move-backwards "south"])) (coord-y+1 coord))))
 
 (defn- coords-around-this [coord]
   (-> #{}

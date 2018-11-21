@@ -27,6 +27,9 @@
 
 (def Instruction-robot-attack {:coord Coord})
 
+(def Moves (s/enum :move-forward :move-backwards))
+(def Instruction-robot-move {:coord Coord :where Moves})
+
 (defn space->list-objects [current-space]
   (let [dinosaurs (map #(into {} {:coord (logic/coord-into-map %)}) (:dinosaur current-space))
         robots (map #(into {} {:coord (logic/coord-into-map (first %)) :face-direction (last %)}) (:robot current-space))]

@@ -37,6 +37,10 @@
   (ctrl.robot/robot-attack! storage coord)
   (get-space storage))
 
+(defn robot-move [storage {:keys [coord where]}]
+  (ctrl.robot/robot-move! storage coord where)
+  (get-space storage))
+
 (defn all-routes [storage]
   (api
     (context "/space" []
@@ -57,7 +61,10 @@
         (turn-robot-face storage instruction))
       (PUT "/attack" []
         :body [instruction adapters/Instruction-robot-attack]
-        (robot-attack storage instruction)))))
+        (robot-attack storage instruction))
+      (PUT "/move" []
+        :body [instruction adapters/Instruction-robot-move]
+        (robot-move storage instruction)))))
 
 (defn app [storage]
   (all-routes storage))
