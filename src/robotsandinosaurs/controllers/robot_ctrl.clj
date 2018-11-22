@@ -1,20 +1,28 @@
 (ns robotsandinosaurs.controllers.robot-ctrl
+  (:import [java.util UUID])
   (:require [robotsandinosaurs.logic :as logic]
             [robotsandinosaurs.db.robot-db :as db.robot]
             [robotsandinosaurs.db.dinosaur-db :as db.dinosaur]
+            [robotsandinosaurs.schemas :as schemas]
             [robotsandinosaurs.adapters :as adapters]))
 
-(defn create-robot! [storage {:keys [coord face-direction]}]
-  (db.robot/create-robot! storage
-                          (logic/coord-into-string coord)
-                          face-direction)
-  {:coord coord :face-direction face-direction})
+(defn get-robot [id storage]
+  (db.robot/get-robot id storage))
+
+(defn create-robot! [{:keys [coord face-direction]} storage]
+  (let [id (adapters/uuid->id (UUID/randomUUID))
+        robot (logic/new-robot (:x coord)
+                               (:y coord)
+                               face-direction
+                               id)]
+    (db.robot/create-robot! robot storage)
+    id))
 
 (defn turn-robot-face! [storage coord direction-to-turn]
   (let [robot-id (logic/coord-into-string coord)
         face-direction (db.robot/get-robot-face-direction storage robot-id)
         new-face-direction (logic/turn-robot-face face-direction
-                                                  adapters/directions
+                                                  schemas/directions
                                                   direction-to-turn)]
     (db.robot/update-robot-face-direction! storage
                                            robot-id
