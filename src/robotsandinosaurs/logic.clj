@@ -1,6 +1,14 @@
 (ns robotsandinosaurs.logic
   (:require [clojure.string :as str]))
 
+;;(defn new-robot [robot-id x y face-direction]
+;;  {(UUID/randomUUID) {:coord {:x x
+;;                              :y y}
+;;                      :face-direction face-direction}})
+
+(defn new-dinosaur [x y id]
+  {id {:id id :coord {:x x :y y}}})
+
 (defn coord-into-map [coord]
   {:x (Integer. (first (str/split coord #":"))) :y (Integer. (last (str/split coord #":")))})
 

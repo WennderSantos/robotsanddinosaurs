@@ -1,6 +1,11 @@
 (ns robotsandinosaurs.adapters
   (:require [schema.core :as s]
-            [robotsandinosaurs.logic :as logic]))
+            [robotsandinosaurs.logic :as logic]
+            [clojure.string :as str]))
+
+
+(defn uuid->id [uuid]
+  (str uuid))
 
 (defonce grid {:lenght 50})
 
