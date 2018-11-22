@@ -2,7 +2,7 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.response :as ring-resp]
             [com.stuartsierra.component :as component]
-;;            [robotsandinosaurs.adapters :as adapters]
+            [robotsandinosaurs.adapters :as adapters]
             [robotsandinosaurs.schemas :as schema]
             [robotsandinosaurs.controllers.space-ctrl :as ctrl.space]
             [robotsandinosaurs.controllers.dinosaur-ctrl :as ctrl.dinosaur]
@@ -10,12 +10,11 @@
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
-      ;;(adapters/space->list-objects)
+      (adapters/space->objects)
       (ring-resp/response)))
 
 (defn restart-space [storage]
   (-> (ctrl.space/restart! storage)
-      ;;(adapters/space->list-objects)
       (ring-resp/response)))
 
 (defn create-dinosaur [storage dinosaur]
