@@ -1,7 +1,7 @@
 (ns robotsandinosaurs.db.dinosaur-db
   (:require [robotsandinosaurs.protocols.storage-client :as storage-client]))
 
-(defn create! [storage dinosaur]
+(defn create! [dinosaur storage]
   (storage-client/put! storage #(update % :dinosaurs conj dinosaur)))
 
 (defn update-dinosaurs! [storage dinosaurs]

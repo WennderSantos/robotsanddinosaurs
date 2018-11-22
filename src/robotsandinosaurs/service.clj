@@ -23,8 +23,8 @@
       (ring-resp/response dinosaur)
       (ring-resp/not-found {}))))
 
-(defn create-dinosaur [storage dinosaur]
-  (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! storage dinosaur)]
+(defn create-dinosaur [dinosaur storage]
+  (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
     (ring-resp/created
       (str "/dinosaur/" dinosaur-id)
       dinosaur-id)))
@@ -65,7 +65,7 @@
         (get-dinosaur id storage))
       (POST "/" []
         :body [dinosaur schemas/Dinosaur]
-        (create-dinosaur storage dinosaur)))
+        (create-dinosaur dinosaur storage)))
     (context "/robot" []
       (GET "/:id" [id]
         (get-robot id storage))
