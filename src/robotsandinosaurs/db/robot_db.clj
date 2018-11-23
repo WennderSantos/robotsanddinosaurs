@@ -1,9 +1,6 @@
 (ns robotsandinosaurs.db.robot-db
   (:require [robotsandinosaurs.protocols.storage-client :as storage-client]))
 
-(defn- create-robot-or-update-its-face-direction! [storage coord face-direction]
-  (storage-client/put! storage #(assoc-in % [:robot coord] face-direction)))
-
 (defn create-robot! [robot storage]
   (storage-client/put! storage #(update % :robots conj robot)))
 
@@ -12,9 +9,10 @@
       (:robots)
       (get id)))
 
-
-(defn update-robot-face-direction! [storage coord face-direction]
-  (create-robot-or-update-its-face-direction! storage coord face-direction))
+(defn update-face-direction! [id face-direction storage]
+  (storage-client/put! storage #(assoc-in %
+                                          [:robots id :face-direction]
+                                          face-direction)))
 
 (defn get-robot-face-direction [storage coord]
   (-> (storage-client/read-all storage)

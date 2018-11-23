@@ -18,15 +18,13 @@
     (db.robot/create-robot! robot storage)
     id))
 
-(defn turn-robot-face! [storage coord direction-to-turn]
-  (let [robot-id (logic/coord-into-string coord)
-        face-direction (db.robot/get-robot-face-direction storage robot-id)
-        new-face-direction (logic/turn-robot-face face-direction
-                                                  schemas/directions
-                                                  direction-to-turn)]
-    (db.robot/update-robot-face-direction! storage
-                                           robot-id
-                                           new-face-direction)))
+(defn turn-robot-face! [id {:keys [side-to-turn]} storage]
+  (let [robot (db.robot/get-robot id storage)
+        new-face-direction (logic/turn-face-direction (:face-direction robot)
+                                                       schemas/directions
+                                                       side-to-turn)]
+    (db.robot/update-face-direction! id new-face-direction storage)
+    (get-robot id storage)))
 
 (defn robot-attack! [storage coord]
   (let [dinosaurs (db.dinosaur/get-dinosaurs storage)

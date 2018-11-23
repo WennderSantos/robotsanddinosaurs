@@ -41,10 +41,11 @@
       (str "/robot/" robot-id)
       robot-id)))
 
-;;(defn turn-robot-face [storage {:keys [coord direction-to-turn]}]
-;;  (-> (ctrl.robot/turn-robot-face! storage coord direction-to-turn)
-;;      (ring-resp/response)))
-;;
+(defn turn-robot-face [id side-to-turn storage]
+  (-> (ctrl.robot/turn-robot-face! id side-to-turn storage)
+      (ring-resp/response)))
+
+
 ;;(defn robot-attack [storage {:keys [coord]}]
 ;;  (ctrl.robot/robot-attack! storage coord)
 ;;  (get-space storage))
@@ -67,14 +68,15 @@
         :body [dinosaur schemas/Dinosaur]
         (create-dinosaur dinosaur storage)))
     (context "/robot" []
-      (GET "/:id" [id]
-        (get-robot id storage))
       (POST "/" []
         :body [robot schemas/Robot]
-        (create-robot robot storage)))))
-;;      (PUT "/turn-face-direction" []
-;;        :body [instruction adapters/Instruction-to-turn-robot-face]
-;;        (turn-robot-face storage instruction))
+        (create-robot robot storage))
+      (context "/:id" [id]
+        (GET "/" [id]
+          (get-robot id storage))
+        (POST "/face-direction" [id]
+          :body [side-to-turn schemas/Sides-to-turn]
+          (turn-robot-face id side-to-turn storage))))))
 ;;      (PUT "/attack" []
 ;;        :body [instruction adapters/Instruction-robot-attack]
 ;;        (robot-attack storage instruction))
