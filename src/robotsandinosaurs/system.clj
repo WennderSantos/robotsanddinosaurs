@@ -4,7 +4,7 @@
             [robotsandinosaurs.service :as service]
             [robotsandinosaurs.components.storage :as storage]))
 
-(defn build []
+(defn- build []
   (component/system-map
       :server  (component/using (webserver/new-webserver #'service/all-routes) [:storage])
       :storage (storage/new-in-memory)))
