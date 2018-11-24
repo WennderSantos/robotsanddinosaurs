@@ -58,13 +58,13 @@
         (get-space storage))
       (PUT "/restart" []
         (restart-space storage)))
-    (context "/dinosaur" []
+    (context "/dinosaurs" []
       (GET "/:id" [id]
         (get-dinosaur id storage))
       (POST "/" []
         :body [dinosaur schemas/Dinosaur]
         (create-dinosaur dinosaur storage)))
-    (context "/robot" []
+    (context "/robots" []
       (POST "/" []
         :body [robot schemas/Robot]
         (create-robot robot storage))
