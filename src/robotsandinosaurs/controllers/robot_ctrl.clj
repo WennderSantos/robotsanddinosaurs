@@ -26,10 +26,12 @@
     (db.robot/update-face-direction! id new-face-direction storage)
     (get-robot id storage)))
 
-(defn robot-attack! [storage coord]
-  (let [dinosaurs (db.dinosaur/get-dinosaurs storage)
-        dinosaurs-after-attack (logic/robot-attack coord dinosaurs)]
-    (db.dinosaur/update-dinosaurs! storage dinosaurs-after-attack)))
+(defn robot-attack! [id storage]
+  (let [robot (db.robot/get-robot id storage)
+        dinosaurs (db.dinosaur/get-dinosaurs storage)
+        dinosaurs-after-attack (logic/robot-attack (:coord robot) dinosaurs)]
+    (db.dinosaur/update-dinosaurs! dinosaurs-after-attack storage)
+    dinosaurs-after-attack))
 
 (defn robot-move! [storage coord where]
   (let [robot-id (logic/coord-into-string coord)

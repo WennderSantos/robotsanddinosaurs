@@ -45,11 +45,10 @@
   (-> (ctrl.robot/turn-robot-face! id side-to-turn storage)
       (ring-resp/response)))
 
+(defn robot-attack [id storage]
+  (-> (ctrl.robot/robot-attack! id storage)
+      (ring-resp/response)))
 
-;;(defn robot-attack [storage {:keys [coord]}]
-;;  (ctrl.robot/robot-attack! storage coord)
-;;  (get-space storage))
-;;
 ;;(defn robot-move [storage {:keys [coord where]}]
 ;;  (ctrl.robot/robot-move! storage coord where)
 ;;  (get-space storage))
@@ -76,10 +75,9 @@
           (get-robot id storage))
         (POST "/face-direction" [id]
           :body [side-to-turn schemas/Sides-to-turn]
-          (turn-robot-face id side-to-turn storage))))))
-;;      (PUT "/attack" []
-;;        :body [instruction adapters/Instruction-robot-attack]
-;;        (robot-attack storage instruction))
+          (turn-robot-face id side-to-turn storage))
+        (POST "/attack" [id]
+          (robot-attack id storage))))))
 ;;      (PUT "/move" []
 ;;        :body [instruction adapters/Instruction-robot-move]
 ;;        (robot-move storage instruction)))))

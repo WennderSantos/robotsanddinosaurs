@@ -14,16 +14,16 @@
   (str x ":" y))
 
 (defn- coord-x-1 [coord]
-  (coord-into-string (update coord :x dec)))
+  (update coord :x dec))
 
 (defn- coord-x+1 [coord]
-  (coord-into-string (update coord :x inc)))
+  (update coord :x inc))
 
 (defn- coord-y-1 [coord]
-  (coord-into-string (update coord :y dec)))
+  (update coord :y dec))
 
 (defn- coord-y+1 [coord]
-  (coord-into-string (update coord :y inc)))
+  (update coord :y inc))
 
 (defn move-robot [where coord face-direction]
   (let [instruction [where face-direction]]
@@ -33,19 +33,24 @@
       (some #(= % instruction) '([:move-forward "south"] [:move-backwards "north"])) (coord-y-1 coord)
       (some #(= % instruction) '([:move-forward "north"] [:move-backwards "south"])) (coord-y+1 coord))))
 
-(defn- coords-around-this [coord]
-  (-> #{}
-      (conj (coord-x-1 coord))
-      (conj (coord-x+1 coord))
-      (conj (coord-y-1 coord))
-      (conj (coord-y+1 coord))))
+(defn- contains-coord? [coords coord]
+  (some #(= coord %) coords))
 
-(defn robot-attack [map-robot-coord dinosaurs]
-  (loop [dinosaurs dinosaurs coords-around (coords-around-this map-robot-coord)]
-    (if (empty? coords-around)
-      dinosaurs
-      (recur (disj dinosaurs (first coords-around))
-             (rest coords-around)))))
+(defn robot-attack [robot-coord dinosaurs]
+  (let [coords-around-robot (-> #{}
+                                (conj (coord-x-1 robot-coord))
+                                (conj (coord-x+1 robot-coord))
+                                (conj (coord-y-1 robot-coord))
+                                (conj (coord-y+1 robot-coord)))]
+    (loop [all-dinosaurs dinosaurs
+           dinosaurs-id-around (map #(:id %)
+                                    (filter #(contains-coord? coords-around-robot
+                                                              (:coord %))
+                                            (vals dinosaurs)))]
+      (if (empty? dinosaurs-id-around)
+        all-dinosaurs
+        (recur (dissoc all-dinosaurs (first dinosaurs-id-around))
+               (rest dinosaurs-id-around))))))
 
 (defn is-this-robot-exist-in-space? [{:keys [coord current-space]}]
   (true? (some #(= coord %) (keys (:robot current-space)))))
