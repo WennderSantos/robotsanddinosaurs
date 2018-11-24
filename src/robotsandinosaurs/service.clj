@@ -18,10 +18,9 @@
       (ring-resp/response)))
 
 (defn get-dinosaur [id storage]
-  (let [dinosaur (ctrl.dinosaur/get-dinosaur id storage)]
-    (if dinosaur
-      (ring-resp/response dinosaur)
-      (ring-resp/not-found {}))))
+  (if-let [dinosaur (ctrl.dinosaur/get-dinosaur id storage)]
+    (ring-resp/response dinosaur)
+    (ring-resp/not-found {})))
 
 (defn create-dinosaur [dinosaur storage]
   (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
@@ -30,10 +29,9 @@
       dinosaur-id)))
 
 (defn get-robot [id storage]
-  (let [robot (ctrl.robot/get-robot id storage)]
-    (if robot
-      (ring-resp/response robot)
-      (ring-resp/not-found {}))))
+  (if-let [robot (ctrl.robot/get-robot id storage)]
+    (ring-resp/response robot)
+    (ring-resp/not-found {})))
 
 (defn create-robot [robot storage]
   (let [robot-id (ctrl.robot/create-robot! robot storage)]
