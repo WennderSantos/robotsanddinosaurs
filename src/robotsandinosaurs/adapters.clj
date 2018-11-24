@@ -3,8 +3,7 @@
             [robotsandinosaurs.logic :as logic]
             [clojure.string :as str]))
 
-(defn uuid->id [uuid]
-  (str uuid))
+(defn uuid->string [uuid] (str uuid))
 
 (defn space->objects [space]
   (let [dinosaurs (map #(into {} (rest %)) (:dinosaurs space))

@@ -10,7 +10,7 @@
   (db.robot/get-robot id storage))
 
 (defn create-robot! [{:keys [coord face-direction]} storage]
-  (let [id (adapters/uuid->id (UUID/randomUUID))
+  (let [id (adapters/uuid->string (UUID/randomUUID))
         robot (logic/new-robot (:x coord)
                                (:y coord)
                                face-direction

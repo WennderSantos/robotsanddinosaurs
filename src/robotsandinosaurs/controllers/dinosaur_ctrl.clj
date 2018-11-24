@@ -5,7 +5,7 @@
             [robotsandinosaurs.adapters :as adapters]))
 
 (defn create-dinosaur! [{:keys [coord]} storage]
-  (let [id (adapters/uuid->id (UUID/randomUUID))
+  (let [id (adapters/uuid->string (UUID/randomUUID))
         dinosaur (logic/new-dinosaur (:x coord) (:y coord) id)]
     (db.dinosaur/create! dinosaur storage)
     id))
