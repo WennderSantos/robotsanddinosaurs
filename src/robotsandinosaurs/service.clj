@@ -77,7 +77,7 @@
           (turn-robot-face id side-to-turn storage))
         (POST "/attack" [id]
           (robot-attack id storage))
-        (PUT "/move" [id]
+        (POST "/move" [id]
           :body [instruction schemas/Move-instruction]
           (robot-move id instruction storage))))
       (route/not-found (ring-resp/not-found {}))))
