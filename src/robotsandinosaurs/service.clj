@@ -15,8 +15,9 @@
       (ring-resp/response)))
 
 (defn restart-space [storage]
-  (-> (ctrl.space/restart! storage)
-      (ring-resp/response)))
+  (ctrl.space/restart! storage)
+  (-> (ring-resp/response nil)
+      (ring-resp/status 204)))
 
 (defn get-dinosaur [id storage]
   (if-let [dinosaur (ctrl.dinosaur/get-dinosaur id storage)]
