@@ -6,7 +6,8 @@
             [robotsandinosaurs.schemas :as schemas]
             [robotsandinosaurs.controllers.space-ctrl :as ctrl.space]
             [robotsandinosaurs.controllers.dinosaur-ctrl :as ctrl.dinosaur]
-            [robotsandinosaurs.controllers.robot-ctrl :as ctrl.robot]))
+            [robotsandinosaurs.controllers.robot-ctrl :as ctrl.robot]
+            [compojure.route :as route]))
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
@@ -53,6 +54,7 @@
 
 (defn all-routes [storage]
   (api
+    (route/not-found (ring-resp/not-found {}))
     (context "/space" []
       (GET "/" []
         (get-space storage))
