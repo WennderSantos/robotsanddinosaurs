@@ -13,10 +13,7 @@
   (storage-client/put! storage #(assoc-in %
                                           [:robots id :face-direction]
                                           face-direction)))
-
-(defn get-robot-face-direction [storage coord]
-  (-> (storage-client/read-all storage)
-      (get-in [:robot coord])))
-
-(defn remove-robot! [storage coord]
-  (storage-client/put! storage #(update % :robot dissoc coord)))
+(defn update-coord! [id coord storage]
+  (storage-client/put! storage #(assoc-in %
+                                           [:robots id :coord]
+                                           coord)))

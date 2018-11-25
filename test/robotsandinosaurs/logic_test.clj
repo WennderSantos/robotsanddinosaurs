@@ -51,3 +51,7 @@
 									 "098-asgd-879-ffg" {:id "098-asgd-879-ffg" :coord {:x 1 :y 0}}
 									 "123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 3 :y 3}}}]
 		(logic/robot-attack robot-coord dinosaurs) => {"123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 3 :y 3}}}))
+
+(fact "Robot move"
+	(logic/move-robot :move-forward {:x 1 :y 1} :north) => {:x 1 :y 2}
+	(logic/move-robot :move-backwards {:x 2 :y 1} :east) => {:x 1 :y 1})

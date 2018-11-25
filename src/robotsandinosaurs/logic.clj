@@ -24,10 +24,14 @@
 (defn move-robot [where coord face-direction]
   (let [instruction [where face-direction]]
     (cond
-      (some #(= % instruction) '([:move-forward "west"] [:move-backwards "east"])) (coord-x-1 coord)
-      (some #(= % instruction) '([:move-forward "east"] [:move-backwards "west"])) (coord-x+1 coord)
-      (some #(= % instruction) '([:move-forward "south"] [:move-backwards "north"])) (coord-y-1 coord)
-      (some #(= % instruction) '([:move-forward "north"] [:move-backwards "south"])) (coord-y+1 coord))))
+      (some #(= % instruction) '([:move-forward :west]
+                                 [:move-backwards :east])) (coord-x-1 coord)
+      (some #(= % instruction) '([:move-forward :east]
+                                 [:move-backwards :west])) (coord-x+1 coord)
+      (some #(= % instruction) '([:move-forward :south]
+                                 [:move-backwards :north])) (coord-y-1 coord)
+      (some #(= % instruction) '([:move-forward :north]
+                                 [:move-backwards :south])) (coord-y+1 coord))))
 
 (defn- contains-coord? [coords coord]
   (some #(= coord %) coords))

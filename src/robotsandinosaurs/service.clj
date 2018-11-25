@@ -25,7 +25,7 @@
 (defn create-dinosaur [dinosaur storage]
   (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
     (ring-resp/created
-      (str "/dinosaur/" dinosaur-id)
+      (str "/dinosaurs/" dinosaur-id)
       dinosaur-id)))
 
 (defn get-robot [id storage]
@@ -36,7 +36,7 @@
 (defn create-robot [robot storage]
   (let [robot-id (ctrl.robot/create-robot! robot storage)]
     (ring-resp/created
-      (str "/robot/" robot-id)
+      (str "/robots/" robot-id)
       robot-id)))
 
 (defn turn-robot-face [id side-to-turn storage]
@@ -47,9 +47,9 @@
   (-> (ctrl.robot/robot-attack! id storage)
       (ring-resp/response)))
 
-;;(defn robot-move [storage {:keys [coord where]}]
-;;  (ctrl.robot/robot-move! storage coord where)
-;;  (get-space storage))
+(defn robot-move [id instruction storage]
+  (-> (ctrl.robot/robot-move! id instruction storage)
+      (ring-resp/response)))
 
 (defn all-routes [storage]
   (api
@@ -75,10 +75,10 @@
           :body [side-to-turn schemas/Sides-to-turn]
           (turn-robot-face id side-to-turn storage))
         (POST "/attack" [id]
-          (robot-attack id storage))))))
-;;      (PUT "/move" []
-;;        :body [instruction adapters/Instruction-robot-move]
-;;        (robot-move storage instruction)))))
-;;
+          (robot-attack id storage))
+        (PUT "/move" [id]
+          :body [instruction schemas/Move-instruction]
+          (robot-move id instruction storage))))))
+
 (defn app [storage]
   (all-routes storage))

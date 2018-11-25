@@ -12,7 +12,7 @@
                        :y Cell}})
 
 (def directions [:north :east :south :west])
-(def Face-direction (s/enum :north :east :south :west))
+(def ^:private Face-direction (s/enum :north :east :south :west))
 
 (def Robot {:coord {:x Cell
                     :y Cell}
@@ -20,4 +20,4 @@
 
 (def Sides-to-turn {:side-to-turn (s/enum :left :right)})
 
-(def Moves (s/enum :move-forward :move-backwards))
+(def Move-instruction {:instruction (s/enum :move-forward :move-backwards)})
