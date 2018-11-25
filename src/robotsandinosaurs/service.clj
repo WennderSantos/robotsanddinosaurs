@@ -54,7 +54,6 @@
 
 (defn all-routes [storage]
   (api
-    (route/not-found (ring-resp/not-found {}))
     (context "/space" []
       (GET "/" []
         (get-space storage))
@@ -80,7 +79,8 @@
           (robot-attack id storage))
         (PUT "/move" [id]
           :body [instruction schemas/Move-instruction]
-          (robot-move id instruction storage))))))
+          (robot-move id instruction storage))))
+      (route/not-found (ring-resp/not-found {}))))
 
 (defn app [storage]
   (all-routes storage))
