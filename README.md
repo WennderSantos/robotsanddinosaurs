@@ -63,7 +63,7 @@ You can find the docs in postman format [here](https://documenter.getpostman.com
 
 ## Deploying on Heroku
 
-There is a CI / CD file configuration for this app using circleci and Heroku. You just need to configured a circleci project with the following build variables containing your Heroku's app information:
+There is a CI / CD file configuration for this app using circleci and Heroku. You just need to configure a circleci project with the following build variables containing your Heroku's app information:
 
 * $HEROKU_API_KEY
 * $HEROKU_APP_NAME
@@ -74,4 +74,4 @@ After that, committing this project to you circleci account/project will start t
 
 I decided to use Clojure `atom` to handle the state instead of a database.
 
-As I am not using a database, I decided to save robots/dinosaurs using its id as a key in a map data structure. This gave me the ability to look for an specific robot/dinosaur in constant time.
+As I am not using a database, I decided to save robots/dinosaurs using its id as a key in a map data structure. This gave me the ability to look for a specific robot/dinosaur in constant time.
