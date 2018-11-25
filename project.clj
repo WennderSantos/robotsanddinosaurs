@@ -15,8 +15,5 @@
                              [javax.servlet/javax.servlet-api "3.1.0"]
                              [ring/ring-mock "0.3.2"]
                              [prismatic/schema "1.1.7"]]
-              :plugins [[lein-midje "3.2.1"]
-                        [lein-cljfmt "0.6.0"]
-                        [lein-cloverage "1.0.13"]
-                        [lein-ring "0.12.0"]]}
+              :plugins [[lein-midje "3.2.1"]]}
              :uberjar {:aot [robotsandinosaurs.server]}})
