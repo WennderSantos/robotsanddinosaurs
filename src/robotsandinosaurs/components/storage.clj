@@ -2,13 +2,13 @@
   (:require [com.stuartsierra.component :as component]
             [robotsandinosaurs.protocols.storage-client :as storage-client]))
 
-(defonce empty-space {:robot {} :dinosaur #{}})
+(defonce empty-space {:robots {} :dinosaurs {}})
 
 (defrecord InMemory[storage]
   component/Lifecycle
   (start [this] this)
   (stop [this]
-     (reset! storage {})
+     (reset! storage empty-space)
     this)
 
 storage-client/StorageClient

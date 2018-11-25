@@ -1,33 +1,42 @@
 (ns robotsandinosaurs.controllers.robot-ctrl
+  (:import [java.util UUID])
   (:require [robotsandinosaurs.logic :as logic]
             [robotsandinosaurs.db.robot-db :as db.robot]
             [robotsandinosaurs.db.dinosaur-db :as db.dinosaur]
+            [robotsandinosaurs.schemas :as schemas]
             [robotsandinosaurs.adapters :as adapters]))
 
-(defn create-robot! [storage {:keys [coord face-direction]}]
-  (db.robot/create-robot! storage
-                          (logic/coord-into-string coord)
-                          face-direction)
-  {:coord coord :face-direction face-direction})
+(defn get-robot [id storage]
+  (db.robot/get-robot id storage))
 
-(defn turn-robot-face! [storage coord direction-to-turn]
-  (let [robot-id (logic/coord-into-string coord)
-        face-direction (db.robot/get-robot-face-direction storage robot-id)
-        new-face-direction (logic/turn-robot-face face-direction
-                                                  adapters/directions
-                                                  direction-to-turn)]
-    (db.robot/update-robot-face-direction! storage
-                                           robot-id
-                                           new-face-direction)))
+(defn create-robot! [{:keys [coord face-direction]} storage]
+  (let [id (adapters/uuid->string (UUID/randomUUID))
+        robot (logic/new-robot (:x coord)
+                               (:y coord)
+                               face-direction
+                               id)]
+    (db.robot/create-robot! robot storage)
+    id))
 
-(defn robot-attack! [storage coord]
-  (let [dinosaurs (db.dinosaur/get-dinosaurs storage)
-        dinosaurs-after-attack (logic/robot-attack coord dinosaurs)]
-    (db.dinosaur/update-dinosaurs! storage dinosaurs-after-attack)))
+(defn turn-robot-face! [id {:keys [side-to-turn]} storage]
+  (let [robot (db.robot/get-robot id storage)
+        new-face-direction (logic/turn-face-direction (:face-direction robot)
+                                                       schemas/directions
+                                                       side-to-turn)]
+    (db.robot/update-face-direction! id new-face-direction storage)
+    (get-robot id storage)))
 
-(defn robot-move! [storage coord where]
-  (let [robot-id (logic/coord-into-string coord)
-        face-direction (db.robot/get-robot-face-direction storage robot-id)
-        new-coord (logic/move-robot where coord face-direction)]
-    (db.robot/remove-robot! storage robot-id)
-    (db.robot/create-robot! storage new-coord face-direction)))
+(defn robot-attack! [id storage]
+  (let [robot (db.robot/get-robot id storage)
+        dinosaurs (db.dinosaur/get-dinosaurs storage)
+        dinosaurs-after-attack (logic/robot-attack (:coord robot) dinosaurs)]
+    (db.dinosaur/update-dinosaurs! dinosaurs-after-attack storage)
+    dinosaurs-after-attack))
+
+(defn robot-move! [id {:keys [instruction]} storage]
+  (let [robot (db.robot/get-robot id storage)
+        new-coord (logic/move-robot instruction
+                                    (:coord robot)
+                                    (:face-direction robot))]
+    (db.robot/update-coord! id new-coord storage)
+    (get-robot id storage)))

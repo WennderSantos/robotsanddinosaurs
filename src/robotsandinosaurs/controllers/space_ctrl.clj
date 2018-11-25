@@ -6,5 +6,4 @@
   (db.space/get-space storage))
 
 (defn restart! [storage]
-  (db.space/delete-space! storage)
-  (get-space storage))
+  (db.space/delete-space! storage))
