@@ -1,11 +1,12 @@
 (ns robotsandinosaurs.controllers.dinosaur-ctrl
-  (:import [java.util UUID])
   (:require [robotsandinosaurs.logic :as logic]
             [robotsandinosaurs.db.dinosaur-db :as db.dinosaur]
-            [robotsandinosaurs.adapters :as adapters]))
+            [clojure.string :as str])
+  (:import [java.util UUID]))
+
 
 (defn create-dinosaur! [{:keys [coord]} storage]
-  (let [id (adapters/uuid->string (UUID/randomUUID))
+  (let [id (str (UUID/randomUUID))
         dinosaur (logic/new-dinosaur (:x coord) (:y coord) id)]
     (db.dinosaur/create! dinosaur storage)
     {:id id}))

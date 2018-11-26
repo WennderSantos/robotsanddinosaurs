@@ -2,16 +2,17 @@
   (:require [robotsandinosaurs.logic :as logic]
 						[midje.sweet :refer :all]
 						[robotsandinosaurs.adapters :as adapters]
-						[robotsandinosaurs.schemas :as schemas])
-	(:import [java.util UUID]))
+						[robotsandinosaurs.schemas :as schemas]
+						[clojure.string :as str])
+  (:import [java.util UUID]))
 
 (fact "Generate a new dinosaur"
-	(let [dinosaur-id (adapters/uuid->string (UUID/randomUUID))]
+	(let [dinosaur-id (str (UUID/randomUUID))]
 		(logic/new-dinosaur 1 1 dinosaur-id) => {dinosaur-id {:id dinosaur-id
 																													:coord {:x 1	:y 1}}}))
 
 (fact "Generate a new robot"
-	(let [robot-id (adapters/uuid->string (UUID/randomUUID))]
+	(let [robot-id (str (UUID/randomUUID))]
 		(logic/new-robot 1 2 :north robot-id) => {robot-id {:id robot-id
 																												:coord {:x 1 :y 2}
 																												:face-direction :north}}))
