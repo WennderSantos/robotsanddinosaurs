@@ -16,7 +16,7 @@
                                face-direction
                                id)]
     (db.robot/create-robot! robot storage)
-    id))
+    {:id id}))
 
 (defn turn-robot-face! [id {:keys [side-to-turn]} storage]
   (let [robot (db.robot/get-robot id storage)

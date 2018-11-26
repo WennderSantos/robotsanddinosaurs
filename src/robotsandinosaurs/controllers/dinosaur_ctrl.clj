@@ -8,7 +8,7 @@
   (let [id (adapters/uuid->string (UUID/randomUUID))
         dinosaur (logic/new-dinosaur (:x coord) (:y coord) id)]
     (db.dinosaur/create! dinosaur storage)
-    id))
+    {:id id}))
 
 (defn get-dinosaur [id storage]
   (db.dinosaur/get-dinosaur id storage))
