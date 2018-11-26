@@ -2,7 +2,7 @@
   (:require [schema.core :as s]
             [robotsandinosaurs.logic :as logic]))
 
-(defn space->objects [space]
+(defn space->map-creatures [space]
   (let [dinosaurs (map #(into {} (rest %)) (:dinosaurs space))
         robots (map #(into {} (rest %)) (:robots space))]
     (-> {}

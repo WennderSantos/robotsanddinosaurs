@@ -11,7 +11,7 @@
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
-      (adapters/space->objects)
+      (adapters/space->map-creatures)
       (ring-resp/response)))
 
 (defn restart-space [storage]

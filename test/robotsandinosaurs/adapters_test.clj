@@ -15,5 +15,5 @@
                         :robots '({:coord {:x 1 :y 1}
                                    :face-direction :north
                                    :id "234-qwr-124"})}]
-    (adapters/space->objects empty-space) => {:dinosaurs '() :robots '()}
-    (adapters/space->objects space) => creatures-list))
+    (adapters/space->map-creatures empty-space) => {:dinosaurs '() :robots '()}
+    (adapters/space->map-creatures space) => creatures-list))
