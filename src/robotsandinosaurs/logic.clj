@@ -10,9 +10,6 @@
   {id {:id id
        :coord {:x x :y y}}})
 
-(defn coord-into-string [{:keys [x y]}]
-  (str x ":" y))
-
 (defn- coord-x-1 [coord] (update coord :x dec))
 
 (defn- coord-x+1 [coord] (update coord :x inc))
