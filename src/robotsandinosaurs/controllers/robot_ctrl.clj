@@ -6,9 +6,11 @@
             [clojure.string :as str])
   (:import [java.util UUID]))
 
-
 (defn get-robot [id storage]
   (db.robot/get-robot id storage))
+
+(defn get-robots [storage]
+  (db.robot/get-robots storage))
 
 (defn create-robot! [{:keys [coord face-direction]} storage]
   (let [id (str (UUID/randomUUID))

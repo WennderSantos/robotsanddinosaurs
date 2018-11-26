@@ -25,7 +25,7 @@
                 "456-dfg-865" {:id "456-dfg-865"
                                :coord {:x 2 :y 2}
                                :face-direction :south}}]
-    (adapters/robots->list robots) => '({:coord {:x 1 :y 1}
+    (adapters/creatures->list robots) => '({:coord {:x 1 :y 1}
                                         :face-direction :north
                                         :id "234-qwr-124"}
                                        {:coord {:x 2 :y 2}
@@ -37,7 +37,7 @@
                                   :coord {:x 1 :y 1}}
                    "456-dfg-865" {:id "456-dfg-865"
                                   :coord {:x 2 :y 2}}}]
-    (adapters/dinosaurs->list dinosaurs) => '({:coord {:x 1 :y 1}
+    (adapters/creatures->list dinosaurs) => '({:coord {:x 1 :y 1}
                                                :id "234-qwr-124"}
                                               {:coord {:x 2 :y 2}
                                                :id "456-dfg-865"})))

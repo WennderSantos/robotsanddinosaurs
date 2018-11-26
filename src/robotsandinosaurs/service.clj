@@ -21,7 +21,7 @@
 
 (defn get-dinosaurs [storage]
   (-> (ctrl.dinosaur/get-dinosaurs storage)
-      (adapters/dinosaurs->list)
+      (adapters/creatures->list)
       (ring-resp/response)))
 
 (defn get-dinosaur [id storage]
@@ -34,6 +34,11 @@
     (ring-resp/created
       (str "/dinosaurs/" dinosaur-id)
       dinosaur-id)))
+
+(defn get-robots [storage]
+  (-> (ctrl.robot/get-robots storage)
+      (adapters/creatures->list)
+      (ring-resp/response)))
 
 (defn get-robot [id storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]
@@ -74,6 +79,8 @@
         :body [dinosaur schemas/Dinosaur]
         (create-dinosaur dinosaur storage)))
     (context "/robots" []
+      (GET "/" []
+        (get-robots storage))
       (POST "/" []
         :body [robot schemas/Robot]
         (create-robot robot storage))

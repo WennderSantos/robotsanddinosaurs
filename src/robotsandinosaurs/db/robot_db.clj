@@ -9,6 +9,10 @@
       (:robots)
       (get id)))
 
+(defn get-robots [storage]
+  (-> (storage-client/read-all storage)
+      (:robots)))
+
 (defn update-face-direction! [id face-direction storage]
   (storage-client/put! storage #(assoc-in %
                                           [:robots id :face-direction]
