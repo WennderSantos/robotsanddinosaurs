@@ -52,16 +52,22 @@
       robot-id)))
 
 (defn turn-robot-face [id side-to-turn storage]
-  (-> (ctrl.robot/turn-robot-face! id side-to-turn storage)
-      (ring-resp/response)))
+  (if-let [robot (ctrl.robot/get-robot id storage)]
+    (-> (ctrl.robot/turn-robot-face! robot side-to-turn storage)
+        (ring-resp/response))
+    (ring-resp/not-found nil)))
 
 (defn robot-attack [id storage]
-  (-> (ctrl.robot/robot-attack! id storage)
-      (ring-resp/response)))
+  (if-let [robot (ctrl.robot/get-robot id storage)]
+    (-> (ctrl.robot/robot-attack! robot storage)
+        (ring-resp/response))
+    (ring-resp/not-found nil)))
 
 (defn robot-move [id instruction storage]
-  (-> (ctrl.robot/robot-move! id instruction storage)
-      (ring-resp/response)))
+  (if-let [robot (ctrl.robot/get-robot id storage)]
+    (-> (ctrl.robot/robot-move! robot instruction storage)
+        (ring-resp/response))
+    (ring-resp/not-found nil)))
 
 (defn all-routes [storage]
   (api

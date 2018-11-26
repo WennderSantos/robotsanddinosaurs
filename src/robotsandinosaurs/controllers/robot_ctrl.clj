@@ -21,25 +21,22 @@
     (db.robot/create-robot! robot storage)
     {:id id}))
 
-(defn turn-robot-face! [id {:keys [side-to-turn]} storage]
-  (let [robot (db.robot/get-robot id storage)
-        new-face-direction (logic/turn-face-direction (:face-direction robot)
-                                                       schemas/directions
-                                                       side-to-turn)]
-    (db.robot/update-face-direction! id new-face-direction storage)
-    (get-robot id storage)))
+(defn turn-robot-face! [robot {side-to-turn :side-to-turn} storage]
+  (let [face-direction (logic/turn-face-direction (:face-direction robot)
+                                                   schemas/directions
+                                                   side-to-turn)]
+    (db.robot/update-face-direction! (:id robot) face-direction storage)
+    (get-robot (:id robot) storage)))
 
-(defn robot-attack! [id storage]
-  (let [robot (db.robot/get-robot id storage)
-        dinosaurs (db.dinosaur/get-dinosaurs storage)
-        dinosaurs-after-attack (logic/robot-attack (:coord robot) dinosaurs)]
+(defn robot-attack! [{coord :coord} storage]
+  (let [dinosaurs (db.dinosaur/get-dinosaurs storage)
+        dinosaurs-after-attack (logic/robot-attack coord dinosaurs)]
     (db.dinosaur/update-dinosaurs! dinosaurs-after-attack storage)
     dinosaurs-after-attack))
 
-(defn robot-move! [id {:keys [instruction]} storage]
-  (let [robot (db.robot/get-robot id storage)
-        new-coord (logic/move-robot instruction
-                                    (:coord robot)
-                                    (:face-direction robot))]
-    (db.robot/update-coord! id new-coord storage)
-    (get-robot id storage)))
+(defn robot-move! [robot {instruction :instruction} storage]
+  (let [coord (logic/move-robot instruction
+                                (:coord robot)
+                                (:face-direction robot))]
+    (db.robot/update-coord! (:id robot) coord storage)
+    (get-robot (:id robot) storage)))
