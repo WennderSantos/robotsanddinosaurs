@@ -33,7 +33,7 @@
   (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
     (ring-resp/created
       (str "/dinosaurs/" dinosaur-id)
-      dinosaur-id)))
+      {:id dinosaur-id})))
 
 (defn get-robots [storage]
   (-> (ctrl.robot/get-robots storage)
@@ -49,7 +49,7 @@
   (let [robot-id (ctrl.robot/create-robot! robot storage)]
     (ring-resp/created
       (str "/robots/" robot-id)
-      robot-id)))
+      {:id robot-id})))
 
 (defn turn-robot-face [id side-to-turn storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]

@@ -19,7 +19,7 @@
                                face-direction
                                id)]
     (db.robot/create-robot! robot storage)
-    {:id id}))
+    id))
 
 (defn turn-robot-face! [robot {side-to-turn :side-to-turn} storage]
   (let [face-direction (logic/turn-face-direction (:face-direction robot)
