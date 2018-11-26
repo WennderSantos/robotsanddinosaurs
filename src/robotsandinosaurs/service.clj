@@ -11,13 +11,18 @@
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
-      (adapters/space->map-creatures)
+      (adapters/space->list-creatures)
       (ring-resp/response)))
 
 (defn restart-space [storage]
   (ctrl.space/restart! storage)
   (-> (ring-resp/response nil)
       (ring-resp/status 204)))
+
+(defn get-dinosaurs [storage]
+  (-> (ctrl.dinosaur/get-dinosaurs storage)
+      (adapters/dinosaurs->list)
+      (ring-resp/response)))
 
 (defn get-dinosaur [id storage]
   (if-let [dinosaur (ctrl.dinosaur/get-dinosaur id storage)]
@@ -61,6 +66,8 @@
       (PUT "/restart" []
         (restart-space storage)))
     (context "/dinosaurs" []
+      (GET "/" []
+        (get-dinosaurs storage))
       (GET "/:id" [id]
         (get-dinosaur id storage))
       (POST "/" []
