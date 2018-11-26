@@ -9,6 +9,12 @@
             [robotsandinosaurs.controllers.robot-ctrl :as ctrl.robot]
             [compojure.route :as route]))
 
+(defn- coord-exist-in-space? [coord storage]
+  (let [space (ctrl.space/get-space storage)
+        space-list (adapters/space->list-creatures space)
+        all-creatures (concat (:robots space-list) (:dinosaurs space-list))]
+    (some #(= coord (:coord %)) all-creatures)))
+
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
       (adapters/space->list-creatures)
@@ -30,10 +36,12 @@
     (ring-resp/not-found {})))
 
 (defn create-dinosaur [dinosaur storage]
-  (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
-    (ring-resp/created
-      (str "/dinosaurs/" dinosaur-id)
-      {:id dinosaur-id})))
+  (if (coord-exist-in-space? (:coord dinosaur) storage)
+    (ring-resp/bad-request {:error "coord already in use"})
+    (let [dinosaur-id (ctrl.dinosaur/create-dinosaur! dinosaur storage)]
+      (ring-resp/created
+        (str "/dinosaurs/" dinosaur-id)
+        {:id dinosaur-id}))))
 
 (defn get-robots [storage]
   (-> (ctrl.robot/get-robots storage)
@@ -46,10 +54,12 @@
     (ring-resp/not-found {})))
 
 (defn create-robot [robot storage]
-  (let [robot-id (ctrl.robot/create-robot! robot storage)]
-    (ring-resp/created
-      (str "/robots/" robot-id)
-      {:id robot-id})))
+  (if (coord-exist-in-space? (:coord robot) storage)
+    (ring-resp/bad-request {:error "coord already in use"})
+    (let [robot-id (ctrl.robot/create-robot! robot storage)]
+      (ring-resp/created
+        (str "/robots/" robot-id)
+        {:id robot-id}))))
 
 (defn turn-robot-face [id side-to-turn storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]
