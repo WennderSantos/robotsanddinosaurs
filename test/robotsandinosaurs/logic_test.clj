@@ -28,31 +28,34 @@
 																 schemas/directions
 																 :right) => :south)))
 
-(fact "Update coord"
-	(let [coord {:x 1 :y 1}]
-		(fact "x + 1"
-			(#'logic/coord-x+1 coord) => {:x 2 :y 1})
-		(fact "x - 1"
-			(#'logic/coord-x-1 coord) => {:x 0 :y 1})
-		(fact "y + 1"
-			(#'logic/coord-y+1 coord) => {:x 1 :y 2})
-		(fact "y - 1"
-			(#'logic/coord-y-1 coord) => {:x 1 :y 0})))
-
-(fact "contains-coord?"
-	(let [coords #{{:x 1 :y 1} {:x 2 :y 2} {:x 3 :y 3}}
-				coord-in {:x 1 :y 1}
-				coord-out {:x 4 :y 4}]
-		(#'logic/contains-coord? coords coord-in) => true
-		(#'logic/contains-coord? coords coord-out) => nil))
-
 (fact "Robot attack should remove all dinosaurs around it"
 	(let [robot-coord {:x 1 :y 1}
-				dinosaurs {"234-qwer-1234-dg" {:id "234-qwer-1234-dg" :coord {:x 0 :y 1}}
-									 "098-asgd-879-ffg" {:id "098-asgd-879-ffg" :coord {:x 1 :y 0}}
-									 "123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 3 :y 3}}}]
-		(logic/robot-attack robot-coord dinosaurs) => {"123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 3 :y 3}}}))
+				dinosaurs {"234-qwer-1234-dg" {:id "234-qwer-1234-dg" :coord {:x 1 :y 2}}
+									 "098-asgd-879-ffg" {:id "098-asgd-879-ffg" :coord {:x 0 :y 1}}
+									 "123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 1 :y 0}}
+									 "876-mnvc-096-lko" {:id "876-mnvc-096-lko" :coord {:x 2 :y 1}}
+									 "420-ytre-405-poo" {:id "420-ytre-405-poo" :coord {:x 9 :y 4}}}]
+		(logic/robot-attack robot-coord dinosaurs) => {"420-ytre-405-poo" {:id "420-ytre-405-poo" :coord {:x 9 :y 4}}}))
 
 (fact "Robot move"
-	(logic/move-robot :move-forward {:x 1 :y 1} :north) => {:x 1 :y 2}
-	(logic/move-robot :move-backwards {:x 2 :y 1} :east) => {:x 1 :y 1})
+	(let [coord {:x 1 :y 1}]
+		(fact "when facing north"
+			(fact "move-forward"
+				(logic/move-robot :move-forward coord :north) => {:x 1 :y 2})
+			(fact "move-backwards"
+				(logic/move-robot :move-backwards coord :north) => {:x 1 :y 0}))
+		(fact "when facing east"
+			(fact "move-forward"
+				(logic/move-robot :move-forward coord :east) => {:x 2 :y 1}))
+			(fact "move-backwards"
+				(logic/move-robot :move-backwards coord :east) => {:x 0 :y 1})
+		(fact "when facing south"
+			(fact "move-forward"
+				(logic/move-robot :move-forward coord :south) => {:x 1 :y 0}))
+			(fact "move-backwards"
+				(logic/move-robot :move-backwards coord :south) => {:x 1 :y 2})
+		(fact "when facing west"
+			(fact "move-forward"
+				(logic/move-robot :move-forward coord :west) => {:x 0 :y 1}))
+			(fact "move-backwards"
+				(logic/move-robot :move-backwards coord :west) => {:x 2 :y 1})))
