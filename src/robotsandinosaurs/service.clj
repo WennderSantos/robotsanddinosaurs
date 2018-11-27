@@ -10,10 +10,12 @@
             [compojure.route :as route]))
 
 (defn- coord-exist-in-space? [coord storage]
-  (let [space (ctrl.space/get-space storage)
-        space-list (adapters/space->list-creatures space)
-        all-creatures (concat (:robots space-list) (:dinosaurs space-list))]
-    (some #(= coord (:coord %)) all-creatures)))
+  (->> (ctrl.space/get-space storage)
+       (adapters/space->list-creatures)
+       (mapcat #(rest %))
+       (flatten)
+       (map #(:coord %))
+       (some #(= coord %))))
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
