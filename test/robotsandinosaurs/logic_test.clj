@@ -35,7 +35,10 @@
 									 "123-xsdf-765-mnb" {:id "123-xsdf-765-mnb" :coord {:x 1 :y 0}}
 									 "876-mnvc-096-lko" {:id "876-mnvc-096-lko" :coord {:x 2 :y 1}}
 									 "420-ytre-405-poo" {:id "420-ytre-405-poo" :coord {:x 9 :y 4}}}]
-		(logic/robot-attack robot-coord dinosaurs) => {"420-ytre-405-poo" {:id "420-ytre-405-poo" :coord {:x 9 :y 4}}}))
+		(logic/robot-attack robot-coord dinosaurs) => '("234-qwer-1234-dg"
+																										"098-asgd-879-ffg"
+																										"123-xsdf-765-mnb"
+																										"876-mnvc-096-lko")))
 
 (fact "Robot move"
 	(let [coord {:x 1 :y 1}]

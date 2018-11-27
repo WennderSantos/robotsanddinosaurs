@@ -38,14 +38,14 @@
                                 (conj (coord-x-1 robot-coord))
                                 (conj (coord-x+1 robot-coord))
                                 (conj (coord-y-1 robot-coord))
-                                (conj (coord-y+1 robot-coord)))]
-    (loop [all-dinosaurs dinosaurs
-           ids-to-remove (map #(:id %)
-                              (filter #(contains-coord? coords-around-robot
-                                                        (:coord %))
-                                      (vals dinosaurs)))]
+                                (conj (coord-y+1 robot-coord)))
+        dinosaurs-to-remove (map #(:id %)
+                                 (filter #(contains-coord? coords-around-robot
+                                                           (:coord %))
+                                         (vals dinosaurs)))]
+    (loop [all-dinosaurs dinosaurs ids-to-remove dinosaurs-to-remove]
       (if (empty? ids-to-remove)
-        all-dinosaurs
+        dinosaurs-to-remove
         (recur (dissoc all-dinosaurs (first ids-to-remove))
                (rest ids-to-remove))))))
 

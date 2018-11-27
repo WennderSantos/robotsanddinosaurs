@@ -30,9 +30,9 @@
 
 (defn robot-attack! [{coord :coord} storage]
   (let [dinosaurs (db.dinosaur/get-dinosaurs storage)
-        dinosaurs-after-attack (logic/robot-attack coord dinosaurs)]
-    (db.dinosaur/update-dinosaurs! dinosaurs-after-attack storage)
-    dinosaurs-after-attack))
+        killed-dinosaurs (logic/robot-attack coord dinosaurs)]
+    (db.dinosaur/delete-dinosaurs! killed-dinosaurs storage)
+    killed-dinosaurs))
 
 (defn robot-move! [robot {instruction :instruction} storage]
   (let [coord (logic/move-robot instruction

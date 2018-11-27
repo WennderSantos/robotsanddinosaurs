@@ -22,7 +22,7 @@
 
 (defn restart-space [storage]
   (ctrl.space/restart! storage)
-  (-> (ring-resp/response nil)
+  (-> (ring-resp/response {})
       (ring-resp/status 204)))
 
 (defn get-dinosaurs [storage]
@@ -65,19 +65,19 @@
   (if-let [robot (ctrl.robot/get-robot id storage)]
     (-> (ctrl.robot/turn-robot-face! robot side-to-turn storage)
         (ring-resp/response))
-    (ring-resp/not-found nil)))
+    (ring-resp/not-found {})))
 
 (defn robot-attack [id storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]
     (-> (ctrl.robot/robot-attack! robot storage)
         (ring-resp/response))
-    (ring-resp/not-found nil)))
+    (ring-resp/not-found {})))
 
 (defn robot-move [id instruction storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]
     (-> (ctrl.robot/robot-move! robot instruction storage)
         (ring-resp/response))
-    (ring-resp/not-found nil)))
+    (ring-resp/not-found {})))
 
 (defn all-routes [storage]
   (api
