@@ -34,20 +34,15 @@
   (some #(= coord %) coords))
 
 (defn robot-attack [robot-coord dinosaurs]
-  (let [coords-around-robot (-> #{}
-                                (conj (coord-x-1 robot-coord))
-                                (conj (coord-x+1 robot-coord))
-                                (conj (coord-y-1 robot-coord))
-                                (conj (coord-y+1 robot-coord)))
-        dinosaurs-to-remove (map #(:id %)
-                                 (filter #(contains-coord? coords-around-robot
-                                                           (:coord %))
-                                         (vals dinosaurs)))]
-    (loop [all-dinosaurs dinosaurs ids-to-remove dinosaurs-to-remove]
-      (if (empty? ids-to-remove)
-        dinosaurs-to-remove
-        (recur (dissoc all-dinosaurs (first ids-to-remove))
-               (rest ids-to-remove))))))
+  (->> (conj #{}
+             (coord-x-1 robot-coord)
+             (coord-x+1 robot-coord)
+             (coord-y-1 robot-coord)
+             (coord-y+1 robot-coord))
+       ((fn [coords-around-robot]
+         (filter #(contains-coord? coords-around-robot (:coord %))
+                 (vals dinosaurs))))
+       (map #(:id %))))
 
 (defn turn-face-direction [face-direction directions side-to-turn]
   (if (= side-to-turn :right)
