@@ -76,8 +76,11 @@
 
 (defn robot-move [id instruction storage]
   (if-let [robot (ctrl.robot/get-robot id storage)]
-    (-> (ctrl.robot/robot-move! robot instruction storage)
-        (ring-resp/response))
+    (let [coord (ctrl.robot/move robot instruction)]
+      (if-let [errors (schemas/check-schema schemas/Coord coord)]
+        (ring-resp/bad-request {:errors errors})
+        (-> (ctrl.robot/update-coord! id coord storage)
+            (ring-resp/response))))
     (ring-resp/not-found {})))
 
 (defn all-routes [storage]

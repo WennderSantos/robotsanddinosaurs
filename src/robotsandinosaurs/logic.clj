@@ -18,7 +18,7 @@
 
 (defn- coord-y+1 [coord] (update coord :y inc))
 
-(defn move-robot [where coord face-direction]
+(defn move [where coord face-direction]
   (-> {:move-forward {:west #(coord-x-1 coord)
                       :east #(coord-x+1 coord)
                       :south #(coord-y-1 coord)

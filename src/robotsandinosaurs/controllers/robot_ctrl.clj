@@ -34,9 +34,10 @@
     (db.dinosaur/delete-dinosaurs! killed-dinosaurs storage)
     killed-dinosaurs))
 
-(defn robot-move! [robot {instruction :instruction} storage]
-  (let [coord (logic/move-robot instruction
-                                (:coord robot)
-                                (:face-direction robot))]
-    (db.robot/update-coord! (:id robot) coord storage)
-    (get-robot (:id robot) storage)))
+(defn update-coord! [id coord storage]
+  (db.robot/update-coord! id coord storage)
+  (get-robot id storage))
+
+(defn move [{:keys [coord face-direction]}
+            {where :instruction}]
+  (logic/move where coord face-direction))

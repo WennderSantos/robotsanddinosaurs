@@ -51,21 +51,21 @@
 	(let [coord {:x 1 :y 1}]
 		(fact "when facing north"
 			(fact "move-forward"
-				(logic/move-robot :move-forward coord :north) => {:x 1 :y 2})
+				(logic/move :move-forward coord :north) => {:x 1 :y 2})
 			(fact "move-backwards"
-				(logic/move-robot :move-backwards coord :north) => {:x 1 :y 0}))
+				(logic/move :move-backwards coord :north) => {:x 1 :y 0}))
 		(fact "when facing east"
 			(fact "move-forward"
-				(logic/move-robot :move-forward coord :east) => {:x 2 :y 1}))
+				(logic/move :move-forward coord :east) => {:x 2 :y 1}))
 			(fact "move-backwards"
-				(logic/move-robot :move-backwards coord :east) => {:x 0 :y 1})
+				(logic/move :move-backwards coord :east) => {:x 0 :y 1})
 		(fact "when facing south"
 			(fact "move-forward"
-				(logic/move-robot :move-forward coord :south) => {:x 1 :y 0}))
+				(logic/move :move-forward coord :south) => {:x 1 :y 0}))
 			(fact "move-backwards"
-				(logic/move-robot :move-backwards coord :south) => {:x 1 :y 2})
+				(logic/move :move-backwards coord :south) => {:x 1 :y 2})
 		(fact "when facing west"
 			(fact "move-forward"
-				(logic/move-robot :move-forward coord :west) => {:x 0 :y 1}))
+				(logic/move :move-forward coord :west) => {:x 0 :y 1}))
 			(fact "move-backwards"
-				(logic/move-robot :move-backwards coord :west) => {:x 2 :y 1})))
+				(logic/move :move-backwards coord :west) => {:x 2 :y 1})))
