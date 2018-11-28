@@ -22,9 +22,9 @@
     id))
 
 (defn turn-robot-face! [robot {side-to-turn :side-to-turn} storage]
-  (let [face-direction (logic/turn-face-direction (:face-direction robot)
-                                                   schemas/directions
-                                                   side-to-turn)]
+  (let [face-direction (logic/turn-face-direction side-to-turn
+                                                  schemas/directions
+                                                  (:face-direction robot))]
     (db.robot/update-face-direction! (:id robot) face-direction storage)
     (get-robot (:id robot) storage)))
 

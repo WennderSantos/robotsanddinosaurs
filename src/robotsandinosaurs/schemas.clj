@@ -11,7 +11,7 @@
 (def Dinosaur {:coord {:x Cell
                        :y Cell}})
 
-(def directions [:north :east :south :west])
+(def directions '(:north :east :south :west))
 (def ^:private Face-direction (s/enum :north :east :south :west))
 
 (def Robot {:coord {:x Cell

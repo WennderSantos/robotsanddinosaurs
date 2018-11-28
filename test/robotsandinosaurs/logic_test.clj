@@ -18,15 +18,22 @@
 																												:face-direction :north}}))
 
 (fact "Turn robots face direction"
-	(let [face-direction :east]
-		(fact "to the left"
-			(logic/turn-face-direction face-direction
-																 schemas/directions
-																 :left) => :north)
-		(fact "to the right"
-			(logic/turn-face-direction face-direction
-																 schemas/directions
-																 :right) => :south)))
+	(fact "to the left when facing north"
+		(logic/turn-face-direction :left
+															 schemas/directions
+															 :north) => :west)
+	(fact "to the right when facing west"
+		(logic/turn-face-direction :right
+															 schemas/directions
+															 :west) => :north)
+	(fact "to the left when facing east"
+		(logic/turn-face-direction :left
+															 schemas/directions
+															 :east) => :north)
+	(fact "to the right when facing south"
+		(logic/turn-face-direction :right
+															 schemas/directions
+															 :south) => :west))
 
 (fact "Robot attack should remove all dinosaurs around it"
 	(let [robot-coord {:x 1 :y 1}

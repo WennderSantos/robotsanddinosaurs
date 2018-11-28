@@ -44,10 +44,12 @@
                  (vals dinosaurs))))
        (map #(:id %))))
 
-(defn turn-face-direction [face-direction directions side-to-turn]
+(defn turn-face-direction [side-to-turn directions face-direction]
   (if (= side-to-turn :right)
-    (turn-face-direction face-direction (reverse directions) :left)
-    (loop [directions directions left-side (last directions)]
-      (if (= (first directions) face-direction)
-        left-side
-        (recur (rest directions) (first directions))))))
+    (turn-face-direction :left (reverse directions) face-direction)
+    (->> (conj directions (last directions))
+         (partition 2 1)
+         (filter (fn [[current next]]
+                  (= next face-direction)))
+         (flatten)
+         (first))))
