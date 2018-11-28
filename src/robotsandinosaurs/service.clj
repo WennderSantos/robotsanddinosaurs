@@ -14,8 +14,7 @@
        (adapters/space->list-creatures)
        (mapcat #(rest %))
        (flatten)
-       (map #(:coord %))
-       (some #(= coord %))))
+       (some #(= coord (:coord %)))))
 
 (defn get-space [storage]
   (-> (ctrl.space/get-space storage)
