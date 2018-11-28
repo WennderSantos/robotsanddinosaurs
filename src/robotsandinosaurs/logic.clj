@@ -19,17 +19,16 @@
 (defn- coord-y+1 [coord] (update coord :y inc))
 
 (defn move-robot [where coord face-direction]
-  (-> (conj {}
-            {[:move-forward :west] #(coord-x-1 coord)}
-            {[:move-backwards :east] #(coord-x-1 coord)}
-            {[:move-forward :east] #(coord-x+1 coord)}
-            {[:move-backwards :west] #(coord-x+1 coord)}
-            {[:move-forward :south] #(coord-y-1 coord)}
-            {[:move-backwards :north] #(coord-y-1 coord)}
-            {[:move-forward :north] #(coord-y+1 coord)}
-            {[:move-backwards :south] #(coord-y+1 coord)})
-            ((fn [instructions]
-              ((get instructions [where face-direction]))))))
+  (-> {:move-forward {:west #(coord-x-1 coord)
+                      :east #(coord-x+1 coord)
+                      :south #(coord-y-1 coord)
+                      :north #(coord-y+1 coord)}
+       :move-backwards {:west #(coord-x+1 coord)
+                       :east #(coord-x-1 coord)
+                       :south #(coord-y+1 coord)
+                       :north #(coord-y-1 coord)}}
+      ((fn [instructions]
+        ((get-in instructions [where face-direction]))))))
 
 (defn- contains-coord? [coords coord]
   (some #(= coord %) coords))
