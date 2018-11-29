@@ -1,6 +1,14 @@
 [![CircleCI](https://circleci.com/gh/WennderSantos/robotsanddinosaurs/tree/master.svg?style=svg)](https://circleci.com/gh/WennderSantos/robotsanddinosaurs/tree/master)
 
-# Robots vs Dinosaurs
+# Robots and Dinosaurs
+
+* [Web api docs](https://documenter.getpostman.com/view/3275327/RzfaqrD6)
+* [Features](#features)
+* [Built with](#built-with)
+* [Getting Started](#getting-started)
+* [Endpoints](#endpoints)
+* [Deploy on Heroku](#deploying-on-heroku)
+* [Technical decisions and further improvements](#technical-decisions-and-further-improvements)
 
 ## Features
 
@@ -69,8 +77,14 @@ There is a CI / CD file configuration for this app using circleci and Heroku. Yo
 
 After that, committing this project to you circleci account/project will start the workflow process.
 
-## Technical decisions and further improvements
+## Technical decisions
 
 I decided to use Clojure `atom` to handle the state instead of a database.
 
 As I am not using a database, I decided to save robots/dinosaurs using its id as a key in a map data structure. This gave me the ability to look for a specific robot/dinosaur in constant time.
+
+The state is a component and I am "injecting" it into the web server handler.
+
+All the business logic is inside `logic.clj`.
+
+I decided to use schema validation to validate the data coming through the web api.
