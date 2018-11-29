@@ -49,7 +49,6 @@
     (turn-face-direction :left (reverse directions) face-direction)
     (->> (conj directions (last directions))
          (partition 2 1)
-         (filter (fn [[current next]]
-                  (= next face-direction)))
-         (flatten)
+         (keep (fn [[current next]]
+                  (if (= next face-direction) current)))
          (first))))
