@@ -23,7 +23,6 @@
   * Compojure for routes
   * Schema for schema validation
 * [Midje](https://github.com/marick/Midje)
-* [Cloverage](https://github.com/cloverage/cloverage)
 * [Circleci](https://circleci.com/)
 
 ## Getting Started

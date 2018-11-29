@@ -69,3 +69,10 @@
 				(logic/move :move-forward coord :west) => {:x 0 :y 1}))
 			(fact "move-backwards"
 				(logic/move :move-backwards coord :west) => {:x 2 :y 1})))
+
+(fact "contains-coord?"
+	(let [coords #{{:x 1 :y 1} {:x 2 :y 2} {:x 3 :y 3}}
+				coord-in {:x 1 :y 1}
+				coord-out {:x 4 :y 4}]
+		(#'logic/contains-coord? coord-in coords) => true
+		(#'logic/contains-coord? coord-out coords) => nil))

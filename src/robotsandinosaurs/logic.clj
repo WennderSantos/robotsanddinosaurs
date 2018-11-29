@@ -30,7 +30,7 @@
       ((fn [instructions]
         ((get-in instructions [where face-direction]))))))
 
-(defn- contains-coord? [coords coord]
+(defn contains-coord? [coord coords]
   (some #(= coord %) coords))
 
 (defn robot-attack [robot-coord dinosaurs]
@@ -40,7 +40,7 @@
              (coord-y-1 robot-coord)
              (coord-y+1 robot-coord))
        ((fn [coords-around-robot]
-         (filter #(contains-coord? coords-around-robot (:coord %))
+         (filter #(contains-coord? (:coord %) coords-around-robot)
                  (vals dinosaurs))))
        (map #(:id %))))
 
