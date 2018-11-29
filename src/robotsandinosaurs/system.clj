@@ -10,5 +10,6 @@
       :storage (storage/new-in-memory)))
 
 (defn build-and-start []
+  "Configure components dependencies and start the system"
   (-> (build)
       (component/start)))

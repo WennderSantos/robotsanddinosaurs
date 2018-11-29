@@ -1,4 +1,5 @@
 (ns robotsandinosaurs.schemas
+  "Schemas used to validate schema in data coming through requests."
   (:require [schema.core :as s]))
 
 (def ^:private grid {:lenght 50})

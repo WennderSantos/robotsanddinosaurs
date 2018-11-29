@@ -1,4 +1,6 @@
 (ns robotsandinosaurs.service
+  "Handle requests, simple parameter validation and
+  delegate work to the controllers."
   (:require [compojure.api.sweet :refer :all]
             [ring.util.response :as ring-resp]
             [com.stuartsierra.component :as component]
