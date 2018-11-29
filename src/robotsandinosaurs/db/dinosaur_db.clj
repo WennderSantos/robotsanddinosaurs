@@ -5,10 +5,8 @@
   (storage-client/put! storage #(update % :dinosaurs conj dinosaur)))
 
 (defn delete-dinosaurs! [dinosaurs storage]
-  (when (not-empty dinosaurs)
-    (do
-      (storage-client/put! storage #(update-in % [:dinosaurs] dissoc (first dinosaurs)))
-      (delete-dinosaurs! (rest dinosaurs) storage))))
+  (storage-client/put! storage
+                       #(apply update-in % [:dinosaurs] dissoc dinosaurs)))
 
 (defn get-dinosaurs [storage]
   (-> (storage-client/read-all storage)
