@@ -8,7 +8,7 @@
 * [Getting Started](#getting-started)
 * [Endpoints](#endpoints)
 * [Deploy on Heroku](#deploying-on-heroku)
-* [Technical decisions and further improvements](#technical-decisions-and-further-improvements)
+* [Technical decisions](#technical-decisions)
 
 ## Features
 

@@ -71,12 +71,12 @@
   This function will always look to the left side, to make this possible
   when the robot needs to turn right, a list of possible directions will be
   reverted.
-  Comparisons are always made with the next item, cause if a match is found,
+  Comparisons are always made with the next item, because if a match is found,
   means that the current item is what we are looking for."
   (if (= side-to-turn :right)
     (turn-face-direction :left (reverse directions) face-direction)
     ;;prepend last item of directions '(:west :north :east :south :west)
-    ;;if north is the current direction and wants to turn left will result in west
+    ;;if north is the current direction, to turn left will result in west
     (->> (conj directions (last directions))
          (partition 2 1)
          (keep (fn [[current next]]
