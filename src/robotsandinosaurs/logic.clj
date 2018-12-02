@@ -2,18 +2,20 @@
   "Business logic"
   (:require [clojure.string :as str]))
 
-(defn new-robot [x y face-direction id]
+(defn new-robot
   "Returns a map which the `id` is its key.
   This makes easy to retrive a robot by its id
   using the `get` function"
+  [x y face-direction id]
   {id {:id id
        :coord {:x x :y y}
        :face-direction face-direction}})
 
-(defn new-dinosaur [x y id]
+(defn new-dinosaur
   "Returns a map which the `id` is its key.
   This makes easy to retrive a dinosaur by its id
   using the `get` function"
+  [x y id]
   {id {:id id
        :coord {:x x :y y}}})
 
@@ -25,13 +27,14 @@
 
 (defn- coord-y+1 [coord] (update coord :y inc))
 
-(defn move [where coord face-direction]
+(defn move
   "Returns a coord.
   Move a robot based on its coord and face direction.
   The combination of a coord and a face direction will
   result in a instruction like: move forward when facing north.
   each of these possible combinations is a key to apply a function f to
   the robot coord which will return its new coord"
+  [where coord face-direction]
   (-> {:move-forward {:west #(coord-x-1 coord)
                       :east #(coord-x+1 coord)
                       :south #(coord-y-1 coord)
@@ -43,17 +46,19 @@
       ((fn [instructions]
         ((get-in instructions [where face-direction]))))))
 
-(defn contains-coord? [coord coords]
+(defn contains-coord?
   "Returns true or false
   Validate if a coord is inside a sequence of coords"
+  [coord coords]
   (some #(= coord %) coords))
 
-(defn robot-attack [robot-coord dinosaurs]
+(defn robot-attack
   "Returns a sequence containing the ids of the
   killed dinosaurs.
   Given a robot coord, will calculate the coords around it
   and filter dinosaurs coord in space which matches these
   coords around the robot."
+  [robot-coord dinosaurs]
   (->> (conj #{}
              (coord-x-1 robot-coord)
              (coord-x+1 robot-coord)
@@ -64,7 +69,7 @@
                  (vals dinosaurs))))
        (map #(:id %))))
 
-(defn turn-face-direction [side-to-turn directions face-direction]
+(defn turn-face-direction
   "Returns a face direction.
   Robots can turn-left or turn-right and these turns will
   result in a new face direction.
@@ -73,6 +78,7 @@
   reverted.
   Comparisons are always made with the next item, because if a match is found,
   means that the current item is what we are looking for."
+  [side-to-turn directions face-direction]
   (if (= side-to-turn :right)
     (turn-face-direction :left (reverse directions) face-direction)
     ;;prepend last item of directions '(:west :north :east :south :west)
