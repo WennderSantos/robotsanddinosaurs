@@ -2,7 +2,6 @@
   (:require [robotsandinosaurs.logic :as logic]
             [robotsandinosaurs.db.robot-db :as db.robot]
             [robotsandinosaurs.db.dinosaur-db :as db.dinosaur]
-            [robotsandinosaurs.schemas :as schemas]
             [clojure.string :as str])
   (:import [java.util UUID]))
 
@@ -23,7 +22,6 @@
 
 (defn turn-robot-face! [robot {side-to-turn :side-to-turn} storage]
   (let [face-direction (logic/turn-face-direction side-to-turn
-                                                  schemas/directions
                                                   (:face-direction robot))]
     (db.robot/update-face-direction! (:id robot) face-direction storage)
     (get-robot (:id robot) storage)))

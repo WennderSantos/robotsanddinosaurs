@@ -13,13 +13,25 @@
 
 (def Dinosaur {:coord Coord})
 
-(def directions '(:north :east :south :west))
-(def ^:private Face-direction (s/enum :north :east :south :west))
+(def turns
+  {:left {:north :west
+          :east :north
+          :south :east
+          :west :south}
+   :right {:north :east
+           :east :south
+           :south :west
+           :west :north}})
+
+(def ^:private Face-direction
+  (->> (:left turns)
+       (keys)
+       (apply s/enum)))
 
 (def Robot {:coord Coord
             :face-direction Face-direction})
 
-(def Sides-to-turn {:side-to-turn (s/enum :left :right)})
+(def Sides-to-turn {:side-to-turn (apply s/enum (keys turns))})
 
 (def Move-instruction {:instruction (s/enum :move-forward :move-backwards)})
 

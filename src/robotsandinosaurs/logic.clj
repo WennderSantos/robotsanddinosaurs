@@ -1,6 +1,7 @@
 (ns robotsandinosaurs.logic
   "Business logic"
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [robotsandinosaurs.schemas :as schemas]))
 
 (defn new-robot
   "Returns a map which the `id` is its key.
@@ -72,19 +73,9 @@
 (defn turn-face-direction
   "Returns a face direction.
   Robots can turn-left or turn-right and these turns will
-  result in a new face direction.
-  This function will always look to the left side, to make this possible
-  when the robot needs to turn right, a list of possible directions will be
-  reverted.
-  Comparisons are always made with the next item, because if a match is found,
-  means that the current item is what we are looking for."
-  [side-to-turn directions face-direction]
-  (if (= side-to-turn :right)
-    (turn-face-direction :left (reverse directions) face-direction)
-    ;;prepend last item of directions '(:west :north :east :south :west)
-    ;;if north is the current direction, to turn left will result in west
-    (->> (conj directions (last directions))
-         (partition 2 1)
-         (keep (fn [[current next]]
-                  (if (= next face-direction) current)))
-         (first))))
+  result in a new face direction based on its current
+  face direction."
+  [side-to-turn current-face-direction]
+  (-> schemas/turns
+      (get side-to-turn)
+      (get current-face-direction)))
