@@ -76,6 +76,6 @@
   result in a new face direction based on its current
   face direction."
   [side-to-turn current-face-direction]
-  (-> schemas/turns
-      (get side-to-turn)
-      (get current-face-direction)))
+  (->> schemas/turns
+       side-to-turn
+       current-face-direction))
